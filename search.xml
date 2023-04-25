@@ -84,13 +84,13 @@
 ]]></content>
   </entry>
   <entry>
-    <title>All Tags</title>
-    <url>/tags/index.html</url>
+    <title>All Categories</title>
+    <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>All Categories</title>
-    <url>/categories/index.html</url>
+    <title>All Tags</title>
+    <url>/tags/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
 </search>
