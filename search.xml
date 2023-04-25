@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Sentinel Playground - Bicep Edition</title>
+    <url>/2023/04/25/Sentinel-Playground-Bicep-Edition/</url>
+    <content><![CDATA[<p>Sentinel Playground is a project that aims to speed up deployment and configuration tasks of a Sentinel Lab&#x2F;Demo environment, including sample content and Bicep Templates. This project seeks to use Bicep only.</p>
+<span id="more"></span>
+
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>The following components can be deployed&#x2F;configured:</p>
+<ul>
+<li>resource group</li>
+<li>Log Analytics workspace + Sentinel solution</li>
+<li>Log Analytics workspace config (retention, daily cap)</li>
+<li>Sentinel config (UEBA, Anomalies)</li>
+<li>Setninel data connectors<ul>
+<li>Azure Activity</li>
+<li>Azure Active Directory</li>
+<li>Defender 365 incidents</li>
+</ul>
+</li>
+<li>demo playbook (with a user-assigned Managed Identity + required permissions)</li>
+<li>Sentinel permissions to trigger playbooks</li>
+<li>Sentinel Content (including Bicep templates)<ul>
+<li>analytics rule</li>
+<li>automation rule</li>
+<li>log query (in a query pack)</li>
+<li>watchlist (with CSV-support)</li>
+</ul>
+</li>
+<li>all analytics rules for Azure Activity and Azure Active Directory are enabled</li>
+</ul>
+<p><strong>You can find the ReadMe including Deployment Instructions in my public repository <a href="https://github.com/hoferandrea/Sentinel-Playground-Bicep-Edition">here</a>.</strong></p>
+<p>I will explain some of the key elements in seperate Blog Posts:</p>
+<ul>
+<li>Deployment Scripts + user-assigned Managed Identities</li>
+<li>Modules and reusablitly</li>
+<li>API Connections + Logic Apps</li>
+<li>Watchlists + CSV Files</li>
+<li>UI Wizard</li>
+<li>Outputs and Conditions</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Bicep</category>
+        <category>Sentinel</category>
+        <category>Automation</category>
+      </categories>
+      <tags>
+        <tag>Bicep</tag>
+        <tag>Sentinel</tag>
+        <tag>Automation</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>About</title>
+    <url>/About-Me/index.html</url>
+    <content><![CDATA[<h1 id="About-me"><a href="#About-me" class="headerlink" title="About me"></a>About me</h1><ul>
+<li>👨 Andrea Hofer</li>
+<li>🤖 knows Automation stuff (Bicep, Powershell, MS Graph, ….)</li>
+<li>🔐 knows Microsoft Security stuff</li>
+<li>🗠 knows Crypto stuff (especially ETH&#x2F;Staking)</li>
+<li>👤 <a href="https://www.linkedin.com/in/andrea-hofer-ch/">LinkedIn</a></li>
+</ul>
+<h2 id="Jobs-and-Roles"><a href="#Jobs-and-Roles" class="headerlink" title="Jobs and Roles"></a>Jobs and Roles</h2><ul>
+<li>current: 🔐 Security Analyst&#x2F;Engineer focused on Sentinel Content&#x2F;Infrastructure Automation</li>
+<li>current: 🚀 <a href="https://watchtheburn.com/">ETH Staker&#x2F;Enthusiast</a></li>
+<li>ex 🔐 Security Engineer &#x2F; Threat Analyst</li>
+<li>ex 👨‍💼 Enterprise Architect</li>
+<li>ex 👨‍💼 Infrastructure Architect</li>
+<li>ex 🤖 System&#x2F;Automation Engineer</li>
+</ul>
+<h2 id="Certs-and-other-boring-stuff"><a href="#Certs-and-other-boring-stuff" class="headerlink" title="Certs and other boring stuff"></a>Certs and other boring stuff</h2><ul>
+<li>25+ Microsoft Certs - some Beta Exams</li>
+<li>Cisco Certified Network Professional (CCNP)</li>
+<li>VMware Certified Professional</li>
+<li>Mirantis OpenStack Professional</li>
+<li>Togaf Level 1+2</li>
+<li>MAS Information Systems Management (FHNW, FHS St. Gallen)</li>
+<li>CAS Enterprise Architecture Management (BFH)</li>
+<li>some Linux Stuff (LPIC)</li>
+<li>…</li>
+</ul>
+<h2 id="Page"><a href="#Page" class="headerlink" title="Page"></a>Page</h2><p>The page was generated using Hexo &amp; NexT.</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>All Tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>All Categories</title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+</search>
