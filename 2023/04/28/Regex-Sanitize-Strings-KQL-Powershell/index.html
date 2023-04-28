@@ -19,30 +19,30 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"hoferlabs.ch","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Sentinel Playground is a project that aims to speed up deployment and configuration tasks of a Sentinel Lab&#x2F;Demo environment, including sample content and Bicep Templates. This project seeks to u">
+    <meta name="description" content="I recently came across some special chars in Sentinel Entitites which broke my KQL Query. I decided to create a whitelist solution to sanitize strings.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Sentinel Playground - Bicep Edition">
-<meta property="og:url" content="http://hoferlabs.ch/2023/04/25/Sentinel-Playground-Bicep-Edition/index.html">
+<meta property="og:title" content="Regex | Sanitize Strings (KQL, Powershell)">
+<meta property="og:url" content="http://hoferlabs.ch/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/index.html">
 <meta property="og:site_name" content="HoferLabs">
-<meta property="og:description" content="Sentinel Playground is a project that aims to speed up deployment and configuration tasks of a Sentinel Lab&#x2F;Demo environment, including sample content and Bicep Templates. This project seeks to u">
+<meta property="og:description" content="I recently came across some special chars in Sentinel Entitites which broke my KQL Query. I decided to create a whitelist solution to sanitize strings.">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-04-25T03:50:40.000Z">
-<meta property="article:modified_time" content="2023-04-25T03:54:27.900Z">
+<meta property="article:published_time" content="2023-04-28T17:05:30.000Z">
+<meta property="article:modified_time" content="2023-04-28T17:05:30.518Z">
 <meta property="article:author" content="Andrea Hofer">
-<meta property="article:tag" content="Bicep">
-<meta property="article:tag" content="Sentinel">
-<meta property="article:tag" content="Automation">
+<meta property="article:tag" content="KQL">
+<meta property="article:tag" content="Powershell">
+<meta property="article:tag" content="Regex">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://hoferlabs.ch/2023/04/25/Sentinel-Playground-Bicep-Edition/">
+<link rel="canonical" href="http://hoferlabs.ch/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://hoferlabs.ch/2023/04/25/Sentinel-Playground-Bicep-Edition/","path":"2023/04/25/Sentinel-Playground-Bicep-Edition/","title":"Sentinel Playground - Bicep Edition"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://hoferlabs.ch/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/","path":"2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/","title":"Regex | Sanitize Strings (KQL, Powershell)"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Sentinel Playground - Bicep Edition | HoferLabs</title>
+<title>Regex | Sanitize Strings (KQL, Powershell) | HoferLabs</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K468P03F6P"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-K468P03F6P","only_pageview":false}</script>
@@ -119,7 +119,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Replace-special-chars-in-KQL"><span class="nav-number">1.</span> <span class="nav-text">Replace special chars in KQL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Replace-special-chars-in-Powershell"><span class="nav-number">2.</span> <span class="nav-text">Replace special chars in Powershell</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -165,7 +165,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://hoferlabs.ch/2023/04/25/Sentinel-Playground-Bicep-Edition/">
+    <link itemprop="mainEntityOfPage" href="http://hoferlabs.ch/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -178,12 +178,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Sentinel Playground - Bicep Edition | HoferLabs">
+      <meta itemprop="name" content="Regex | Sanitize Strings (KQL, Powershell) | HoferLabs">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Sentinel Playground - Bicep Edition
+          Regex | Sanitize Strings (KQL, Powershell)
         </h1>
 
         <div class="post-meta-container">
@@ -193,26 +193,8 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2023-04-25 05:50:40 / Modified: 05:54:27" itemprop="dateCreated datePublished" datetime="2023-04-25T05:50:40+02:00">2023-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Bicep/" itemprop="url" rel="index"><span itemprop="name">Bicep</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Bicep/Sentinel/" itemprop="url" rel="index"><span itemprop="name">Sentinel</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Bicep/Sentinel/Automation/" itemprop="url" rel="index"><span itemprop="name">Automation</span></a>
-        </span>
+      <time title="Created: 2023-04-28 19:05:30" itemprop="dateCreated datePublished" datetime="2023-04-28T19:05:30+02:00">2023-04-28</time>
     </span>
 
   
@@ -225,42 +207,46 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>Sentinel Playground is a project that aims to speed up deployment and configuration tasks of a Sentinel Lab&#x2F;Demo environment, including sample content and Bicep Templates. This project seeks to use Bicep only.</p>
+        <p>I recently came across some special chars in Sentinel Entitites which broke my KQL Query. I decided to create a whitelist solution to sanitize strings.</p>
 <span id="more"></span>
 
-<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>The following components can be deployed&#x2F;configured:</p>
+<p>My goal was to replace all chars except for </p>
 <ul>
-<li>resource group</li>
-<li>Log Analytics workspace + Sentinel solution</li>
-<li>Log Analytics workspace config (retention, daily cap)</li>
-<li>Sentinel config (UEBA, Anomalies)</li>
-<li>Setninel data connectors<ul>
-<li>Azure Activity</li>
-<li>Azure Active Directory</li>
-<li>Defender 365 incidents</li>
+<li>a-z&#x2F;A-Z</li>
+<li>0-9 </li>
+<li>spaces and _</li>
+</ul>
+<p>With a little help from ChatGPT i created the following expression:</p>
+<p><code>[^a-zA-Z0-9 _]</code></p>
+<p>Let’s break it down:</p>
+<ul>
+<li><code>[^a-zA-Z0-9 _]</code> - This is a character class, denoted by square brackets <code>[]</code>, which defines a set of characters that are to be matched.<ul>
+<li><code>^</code> - The caret symbol at the beginning of the character class denotes negation, meaning it matches any character that is not in the set.</li>
+<li><code>a-zA-Z0-9</code> - This range represents all lowercase letters (<code>a-z</code>), uppercase letters (<code>A-Z</code>), and digits (<code>0-9</code>).</li>
+<li>&#96;&#96; - This space character represents a literal space.</li>
+<li><code>_</code> - This underscore character represents a literal underscore.</li>
 </ul>
 </li>
-<li>demo playbook (with a user-assigned Managed Identity + required permissions)</li>
-<li>Sentinel permissions to trigger playbooks</li>
-<li>Sentinel Content (including Bicep templates)<ul>
-<li>analytics rule</li>
-<li>automation rule</li>
-<li>log query (in a query pack)</li>
-<li>watchlist (with CSV-support)</li>
 </ul>
-</li>
-<li>all analytics rules for Azure Activity and Azure Active Directory are enabled</li>
-</ul>
-<p><strong>You can find the ReadMe including Deployment Instructions in my public repository <a target="_blank" rel="noopener" href="https://github.com/hoferandrea/Sentinel-Playground-Bicep-Edition">here</a>.</strong></p>
-<p>I will explain some of the key elements in seperate Blog Posts:</p>
-<ul>
-<li>Deployment Scripts + user-assigned Managed Identities</li>
-<li>Modules and reusablitly</li>
-<li>API Connections + Logic Apps</li>
-<li>Watchlists + CSV Files</li>
-<li>UI Wizard</li>
-<li>Outputs and Conditions</li>
-</ul>
+<p>In summary, this regular expression matches any character that is not a letter (lowercase or uppercase), a digit, a space, or an underscore. It can be used to identify any special characters or symbols present in a given string.</p>
+<p>If you want to whitelist more characters, add them before the ]. Let’s add ‘.’ for FQDNs:<br><code>[^a-zA-Z0-9 _.]</code></p>
+<p>I let ChatGPT create the following test string:</p>
+<blockquote>
+<p>!”#$%&amp;’()*+,-.&#x2F;0123456789:;&lt;&#x3D;&gt;?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[]^_&#96;abcdefghijklmnopqrstuvwxyz{|}~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸”</p>
+</blockquote>
+<h1 id="Replace-special-chars-in-KQL"><a href="#Replace-special-chars-in-KQL" class="headerlink" title="Replace special chars in KQL"></a>Replace special chars in KQL</h1><pre class="line-numbers language-kusto" data-language="kusto"><code class="language-kusto"><span class="token keyword">let</span> strRegex <span class="token operator">=</span> <span class="token string">@'[^a-zA-Z0-9 _]'</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> strTest <span class="token operator">=</span> <span class="token string">'!"#$%&amp;\'()*+,-./0123456789:;&lt;=>?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸"'</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> strSanitized <span class="token operator">=</span> <span class="token function">replace_regex</span><span class="token punctuation">(</span>strTest<span class="token punctuation">,</span> strRegex<span class="token punctuation">,</span> <span class="token string">@''</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">print</span> strSanitized<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>outputs: 0123456789AB CDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz</p>
+</blockquote>
+<h1 id="Replace-special-chars-in-Powershell"><a href="#Replace-special-chars-in-Powershell" class="headerlink" title="Replace special chars in Powershell"></a>Replace special chars in Powershell</h1><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token variable">$strRegex</span> = <span class="token string">'[^a-zA-Z0-9 _]'</span>
+<span class="token variable">$strTest</span> = <span class="token string">'!"#$%&amp;''()*+,-./0123456789:;&lt;=>?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸"'</span>
+<span class="token variable">$strTest</span> <span class="token operator">-replace</span> <span class="token variable">$strRegex</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>outputs: 0123456789AB CDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz</p>
+</blockquote>
 
     </div>
 
@@ -287,20 +273,20 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/Bicep/" rel="tag"># Bicep</a>
-              <a href="/tags/Sentinel/" rel="tag"># Sentinel</a>
-              <a href="/tags/Automation/" rel="tag"># Automation</a>
+              <a href="/tags/KQL/" rel="tag"># KQL</a>
+              <a href="/tags/Powershell/" rel="tag"># Powershell</a>
+              <a href="/tags/Regex/" rel="tag"># Regex</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
+                <a href="/2023/04/25/Sentinel-Playground-Bicep-Edition/" rel="prev" title="Sentinel Playground - Bicep Edition">
+                  <i class="fa fa-chevron-left"></i> Sentinel Playground - Bicep Edition
+                </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/" rel="next" title="Regex | Sanitize Strings (KQL, Powershell)">
-                  Regex | Sanitize Strings (KQL, Powershell) <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>

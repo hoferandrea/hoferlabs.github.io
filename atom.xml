@@ -6,7 +6,7 @@
   <link href="http://hoferlabs.ch/atom.xml" rel="self"/>
   
   <link href="http://hoferlabs.ch/"/>
-  <updated>2023-04-25T03:54:27.900Z</updated>
+  <updated>2023-04-28T17:05:30.518Z</updated>
   <id>http://hoferlabs.ch/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Regex | Sanitize Strings (KQL, Powershell)</title>
+    <link href="http://hoferlabs.ch/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/"/>
+    <id>http://hoferlabs.ch/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/</id>
+    <published>2023-04-28T17:05:30.000Z</published>
+    <updated>2023-04-28T17:05:30.518Z</updated>
+    
+    <content type="html"><![CDATA[<p>I recently came across some special chars in Sentinel Entitites which broke my KQL Query. I decided to create a whitelist solution to sanitize strings.</p><span id="more"></span><p>My goal was to replace all chars except for </p><ul><li>a-z&#x2F;A-Z</li><li>0-9 </li><li>spaces and _</li></ul><p>With a little help from ChatGPT i created the following expression:</p><p><code>[^a-zA-Z0-9 _]</code></p><p>Let’s break it down:</p><ul><li><code>[^a-zA-Z0-9 _]</code> - This is a character class, denoted by square brackets <code>[]</code>, which defines a set of characters that are to be matched.<ul><li><code>^</code> - The caret symbol at the beginning of the character class denotes negation, meaning it matches any character that is not in the set.</li><li><code>a-zA-Z0-9</code> - This range represents all lowercase letters (<code>a-z</code>), uppercase letters (<code>A-Z</code>), and digits (<code>0-9</code>).</li><li>&#96;&#96; - This space character represents a literal space.</li><li><code>_</code> - This underscore character represents a literal underscore.</li></ul></li></ul><p>In summary, this regular expression matches any character that is not a letter (lowercase or uppercase), a digit, a space, or an underscore. It can be used to identify any special characters or symbols present in a given string.</p><p>If you want to whitelist more characters, add them before the ]. Let’s add ‘.’ for FQDNs:<br><code>[^a-zA-Z0-9 _.]</code></p><p>I let ChatGPT create the following test string:</p><blockquote><p>!”#$%&amp;’()*+,-.&#x2F;0123456789:;&lt;&#x3D;&gt;?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[]^_&#96;abcdefghijklmnopqrstuvwxyz{|}~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸”</p></blockquote><h1 id="Replace-special-chars-in-KQL"><a href="#Replace-special-chars-in-KQL" class="headerlink" title="Replace special chars in KQL"></a>Replace special chars in KQL</h1><pre class="line-numbers language-kusto" data-language="kusto"><code class="language-kusto"><span class="token keyword">let</span> strRegex <span class="token operator">=</span> <span class="token string">@'[^a-zA-Z0-9 _]'</span><span class="token punctuation">;</span><span class="token keyword">let</span> strTest <span class="token operator">=</span> <span class="token string">'!"#$%&amp;\'()*+,-./0123456789:;&lt;=>?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸"'</span><span class="token punctuation">;</span><span class="token keyword">let</span> strSanitized <span class="token operator">=</span> <span class="token function">replace_regex</span><span class="token punctuation">(</span>strTest<span class="token punctuation">,</span> strRegex<span class="token punctuation">,</span> <span class="token string">@''</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token keyword">print</span> strSanitized<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><blockquote><p>outputs: 0123456789AB CDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz</p></blockquote><h1 id="Replace-special-chars-in-Powershell"><a href="#Replace-special-chars-in-Powershell" class="headerlink" title="Replace special chars in Powershell"></a>Replace special chars in Powershell</h1><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token variable">$strRegex</span> = <span class="token string">'[^a-zA-Z0-9 _]'</span><span class="token variable">$strTest</span> = <span class="token string">'!"#$%&amp;''()*+,-./0123456789:;&lt;=>?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸"'</span><span class="token variable">$strTest</span> <span class="token operator">-replace</span> <span class="token variable">$strRegex</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><blockquote><p>outputs: 0123456789AB CDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz</p></blockquote>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;I recently came across some special chars in Sentinel Entitites which broke my KQL Query. I decided to create a whitelist solution to sanitize strings.&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="KQL" scheme="http://hoferlabs.ch/tags/KQL/"/>
+    
+    <category term="Powershell" scheme="http://hoferlabs.ch/tags/Powershell/"/>
+    
+    <category term="Regex" scheme="http://hoferlabs.ch/tags/Regex/"/>
+    
+  </entry>
   
   <entry>
     <title>Sentinel Playground - Bicep Edition</title>
