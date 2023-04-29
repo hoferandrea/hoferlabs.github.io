@@ -102,11 +102,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Useful Links</title>
-    <url>/Useful-Links/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>About</title>
     <url>/About/index.html</url>
     <content><![CDATA[<h1 id="About-me"><a href="#About-me" class="headerlink" title="About me"></a>About me</h1><ul>
@@ -139,13 +134,27 @@
 ]]></content>
   </entry>
   <entry>
+    <title>All Tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>All Categories</title>
     <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>All Tags</title>
-    <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
+    <title>Useful Links</title>
+    <url>/Useful-Links/index.html</url>
+    <content><![CDATA[<h1 id="KQL"><a href="#KQL" class="headerlink" title="KQL"></a>KQL</h1><ul>
+<li><a href="https://kqlcafe.github.io/website/">KQL Cafe with Alex and Gianni</a></li>
+<li><a href="https://aka.ms/MustLearnKQL">Must Learn KQL by Rod Trent</a></li>
+<li><a href="https://detective.kusto.io/">Kusto Detective Agency</a></li>
+<li><a href="https://www.kqlsearch.com/">KQL Search</a></li>
+</ul>
+<h1 id="UI-Wizard"><a href="#UI-Wizard" class="headerlink" title="UI Wizard"></a>UI Wizard</h1><ul>
+<li><a href="https://aka.ms/form/sandbox">Fowm View Sandbox</a> (use CustomTemplate as Package Type for Template Specs)</li>
+</ul>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1>]]></content>
   </entry>
 </search>
