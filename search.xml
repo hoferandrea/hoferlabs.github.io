@@ -159,6 +159,26 @@
       </tags>
   </entry>
   <entry>
+    <title>Useful Links</title>
+    <url>/Useful-Links/index.html</url>
+    <content><![CDATA[<h1 id="KQL"><a href="#KQL" class="headerlink" title="KQL"></a>KQL</h1><ul>
+<li><a href="https://kqlcafe.github.io/website/">KQL Cafe with Alex and Gianni</a></li>
+<li><a href="https://aka.ms/MustLearnKQL">Must Learn KQL by Rod Trent</a></li>
+<li><a href="https://detective.kusto.io/">Kusto Detective Agency</a></li>
+<li><a href="https://www.kqlsearch.com/">KQL Search</a></li>
+</ul>
+<h1 id="Graph-API"><a href="#Graph-API" class="headerlink" title="Graph API"></a>Graph API</h1><ul>
+<li><a href="https://laurakokkarinen.com/the-ultimate-beginners-guide-to-microsoft-graph/">Graph Beginners Guide by Laura Kokkarinen</a></li>
+</ul>
+<h1 id="UI-Wizard"><a href="#UI-Wizard" class="headerlink" title="UI Wizard"></a>UI Wizard</h1><ul>
+<li><a href="https://aka.ms/form/sandbox">Fowm View Sandbox</a> (use CustomTemplate as Package Type for Template Specs)</li>
+</ul>
+<h1 id="Other-stuff"><a href="#Other-stuff" class="headerlink" title="Other stuff"></a>Other stuff</h1><ul>
+<li><a href="https://jwt.ms/">Decode an encoded JWT Token and see the contents</a></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>About</title>
     <url>/About/index.html</url>
     <content><![CDATA[<h1 id="About-me"><a href="#About-me" class="headerlink" title="About me"></a>About me</h1><ul>
@@ -194,26 +214,6 @@
     <title>All Categories</title>
     <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>Useful Links</title>
-    <url>/Useful-Links/index.html</url>
-    <content><![CDATA[<h1 id="KQL"><a href="#KQL" class="headerlink" title="KQL"></a>KQL</h1><ul>
-<li><a href="https://kqlcafe.github.io/website/">KQL Cafe with Alex and Gianni</a></li>
-<li><a href="https://aka.ms/MustLearnKQL">Must Learn KQL by Rod Trent</a></li>
-<li><a href="https://detective.kusto.io/">Kusto Detective Agency</a></li>
-<li><a href="https://www.kqlsearch.com/">KQL Search</a></li>
-</ul>
-<h1 id="Graph-API"><a href="#Graph-API" class="headerlink" title="Graph API"></a>Graph API</h1><ul>
-<li><a href="https://laurakokkarinen.com/the-ultimate-beginners-guide-to-microsoft-graph/">Graph Beginners Guide by Laura Kokkarinen</a></li>
-</ul>
-<h1 id="UI-Wizard"><a href="#UI-Wizard" class="headerlink" title="UI Wizard"></a>UI Wizard</h1><ul>
-<li><a href="https://aka.ms/form/sandbox">Fowm View Sandbox</a> (use CustomTemplate as Package Type for Template Specs)</li>
-</ul>
-<h1 id="Other-stuff"><a href="#Other-stuff" class="headerlink" title="Other stuff"></a>Other stuff</h1><ul>
-<li><a href="https://jwt.ms/">Decode an encoded JWT Token and see the contents</a></li>
-</ul>
-]]></content>
   </entry>
   <entry>
     <title>All Tags</title>
