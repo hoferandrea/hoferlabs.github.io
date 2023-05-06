@@ -97,8 +97,65 @@
       </categories>
       <tags>
         <tag>Bicep</tag>
-        <tag>Sentinel</tag>
         <tag>Automation</tag>
+        <tag>Sentinel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Powershell/Graph | Assign Graph Application Permissions</title>
+    <url>/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/</url>
+    <content><![CDATA[<p>The <a href="https://learn.microsoft.com/en-us/graph/migrate-azure-ad-graph-faq">Azure Active Directory module is not supported in newer Powershell versions (7+)</a>. I used a script by <a href="https://gist.github.com/maayanlux/e6ca2d92b3d5a13a3905dff3244495db">maayanlux</a> from the <a href="https://azurecloudai.blog/2023/03/22/azure-ad-powershell-to-microsoft-graph-powershell/">Azure Cloud AI Blog</a> to assign Graph Application Permissions in the past, but couldn’t get it working with newer Powershell Versions. </p>
+<p>The new way is to use the Graph Module (&#x2F;API). I found a script from <a href="https://jannikreinhard.com/2023/04/09/how-to-start-with-azure-automation-runbook-to-automate-tasks-in-intune/">Jannik Reinhard</a> but it doesn’t support multiple permissions. Let’s combine them… I also added a verify step which shows current assigned permissions and when they were assigned…</p>
+<span id="more"></span>
+
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token string">"####################################################################################################################################"</span>
+<span class="token string">"# hoferlabs.ch                                                                                                                     #"</span>
+<span class="token string">"# assign Graph application permissions using Graph Powershell Module                                                               #"</span>
+<span class="token string">"# Version: 0.1                                                                                                                     #"</span>
+<span class="token string">"# Inspired by https://jannikreinhard.com/2023/04/09/how-to-start-with-azure-automation-runbook-to-automate-tasks-in-intune/ and    #"</span>
+<span class="token string">"# https://azurecloudai.blog/2023/03/22/azure-ad-powershell-to-microsoft-graph-powershell/                                          #"</span>
+<span class="token string">"####################################################################################################################################"</span>
+
+<span class="token comment"># edit here</span>
+<span class="token comment"># for enteprise applications / managed identitites: use the object id of the enterprise application</span>
+<span class="token variable">$strAppId</span> = <span class="token string">"c2280552-0c9a-43e7-8f44-e862d30c8058"</span>
+<span class="token variable">$arrPermissions</span> = <span class="token string">"User.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"Group.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"Directory.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"GroupMember.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"RoleManagement.ReadWrite.Directory"</span> 
+
+<span class="token comment"># do not edit</span>
+<span class="token variable">$strGraphAppId</span> = <span class="token string">"00000003-0000-0000-c000-000000000000"</span>
+
+<span class="token function">Connect-MgGraph</span> <span class="token operator">-</span>Scopes Application<span class="token punctuation">.</span>Read<span class="token punctuation">.</span>All<span class="token punctuation">,</span> AppRoleAssignment<span class="token punctuation">.</span>ReadWrite<span class="token punctuation">.</span>All<span class="token punctuation">,</span> RoleManagement<span class="token punctuation">.</span>ReadWrite<span class="token punctuation">.</span>Directory
+
+<span class="token string">"get graph app..."</span>
+<span class="token variable">$objGraphApp</span> = <span class="token function">Get-MgServicePrincipal</span> <span class="token operator">-</span><span class="token keyword">Filter</span> <span class="token string">"AppId eq '<span class="token variable">$strGraphAppId</span>'"</span>
+
+<span class="token string">"assign permissions..."</span>
+<span class="token keyword">ForEach</span> <span class="token punctuation">(</span><span class="token variable">$strPermission</span> in <span class="token variable">$arrPermissions</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">" assign permission <span class="token variable">$strPermission</span>..."</span>
+    <span class="token variable">$objRole</span> = <span class="token variable">$objGraphApp</span><span class="token punctuation">.</span>AppRoles <span class="token punctuation">|</span> <span class="token function">Where-Object</span> <span class="token punctuation">&#123;</span> <span class="token variable">$_</span><span class="token punctuation">.</span>Value <span class="token operator">-eq</span> <span class="token variable">$strPermission</span> <span class="token punctuation">&#125;</span>
+    <span class="token variable">$objResult</span> = <span class="token function">New-MgServicePrincipalAppRoleAssignment</span> <span class="token operator">-</span>ServicePrincipalId <span class="token variable">$strAppId</span> <span class="token operator">-</span>PrincipalId <span class="token variable">$strAppId</span> <span class="token operator">-</span>ResourceId <span class="token variable">$objGraphApp</span><span class="token punctuation">.</span>Id <span class="token operator">-</span>AppRoleId <span class="token variable">$objRole</span><span class="token punctuation">.</span>Id
+<span class="token punctuation">&#125;</span>
+
+<span class="token string">"verify permissions..."</span>
+<span class="token variable">$arrRoleAssignment</span> = <span class="token function">Get-MgServicePrincipalAppRoleAssignment</span> <span class="token operator">-</span>ServicePrincipalId <span class="token variable">$strAppId</span>
+<span class="token keyword">ForEach</span> <span class="token punctuation">(</span><span class="token variable">$objRoleAssignment</span> in <span class="token variable">$arrRoleAssignment</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token variable">$objRole</span> = <span class="token variable">$objGraphApp</span><span class="token punctuation">.</span>AppRoles <span class="token punctuation">|</span> <span class="token function">Where-Object</span> <span class="token punctuation">&#123;</span> <span class="token variable">$_</span><span class="token punctuation">.</span>Id <span class="token operator">-eq</span> <span class="token variable">$objRoleAssignment</span><span class="token punctuation">.</span>AppRoleId<span class="token punctuation">&#125;</span>
+    <span class="token string">" assignment for app role <span class="token function">$<span class="token punctuation">(</span><span class="token variable">$objRole</span><span class="token punctuation">.</span>Value<span class="token punctuation">)</span></span> was created on <span class="token function">$<span class="token punctuation">(</span><span class="token variable">$objRoleAssignment</span><span class="token punctuation">.</span>CreatedDateTime<span class="token punctuation">)</span></span> (ID: <span class="token function">$<span class="token punctuation">(</span><span class="token variable">$objRoleAssignment</span><span class="token punctuation">.</span>AppRoleId<span class="token punctuation">)</span></span>)"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Script outputs for assigning permissions to a managed identity:</p>
+<img src="/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/script_output.png" class="" title="Script output">
+
+<p>Permissions:</p>
+<img src="/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/app_permissions.png" class="" title="App permissions">
+
+
+
+
+]]></content>
+      <tags>
+        <tag>Powershell</tag>
+        <tag>Graph API</tag>
       </tags>
   </entry>
   <entry>
@@ -134,11 +191,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>All Tags</title>
-    <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>All Categories</title>
     <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
@@ -162,5 +214,10 @@
 <li><a href="https://jwt.ms/">Decode an encoded JWT Token and see the contents</a></li>
 </ul>
 ]]></content>
+  </entry>
+  <entry>
+    <title>All Tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>
