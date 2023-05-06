@@ -26,13 +26,16 @@
 <meta property="og:site_name" content="HoferLabs">
 <meta property="og:description" content="I recently came across some special chars in Sentinel Entitites which broke my KQL Query. I decided to create a whitelist solution to sanitize strings.">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://hoferlabs.ch/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/output_kql.png">
+<meta property="og:image" content="http://hoferlabs.ch/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/output_powershell.png">
 <meta property="article:published_time" content="2023-04-28T17:05:30.000Z">
-<meta property="article:modified_time" content="2023-04-28T17:05:30.518Z">
+<meta property="article:modified_time" content="2023-05-06T20:02:22.900Z">
 <meta property="article:author" content="Andrea Hofer">
 <meta property="article:tag" content="KQL">
 <meta property="article:tag" content="Powershell">
 <meta property="article:tag" content="Regex">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hoferlabs.ch/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/output_kql.png">
 
 
 <link rel="canonical" href="http://hoferlabs.ch/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/">
@@ -196,6 +199,13 @@
 
       <time title="Created: 2023-04-28 19:05:30" itemprop="dateCreated datePublished" datetime="2023-04-28T19:05:30+02:00">2023-04-28</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-05-06 22:02:22" itemprop="dateModified" datetime="2023-05-06T22:02:22+02:00">2023-05-06</time>
+    </span>
 
   
 </div>
@@ -238,15 +248,19 @@
 <span class="token keyword">let</span> strTest <span class="token operator">=</span> <span class="token string">'!"#$%&amp;\'()*+,-./0123456789:;&lt;=>?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸"'</span><span class="token punctuation">;</span>
 <span class="token keyword">let</span> strSanitized <span class="token operator">=</span> <span class="token function">replace_regex</span><span class="token punctuation">(</span>strTest<span class="token punctuation">,</span> strRegex<span class="token punctuation">,</span> <span class="token string">@''</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">print</span> strSanitized<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<blockquote>
-<p>outputs: 0123456789AB CDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz</p>
-</blockquote>
+<p>Output:</p>
+<img src="/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/output_kql.png" class="" title="Script output">
+
 <h1 id="Replace-special-chars-in-Powershell"><a href="#Replace-special-chars-in-Powershell" class="headerlink" title="Replace special chars in Powershell"></a>Replace special chars in Powershell</h1><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token variable">$strRegex</span> = <span class="token string">'[^a-zA-Z0-9 _]'</span>
 <span class="token variable">$strTest</span> = <span class="token string">'!"#$%&amp;''()*+,-./0123456789:;&lt;=>?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸"'</span>
 <span class="token variable">$strTest</span> <span class="token operator">-replace</span> <span class="token variable">$strRegex</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<blockquote>
-<p>outputs: 0123456789AB CDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz</p>
-</blockquote>
+<p>Output:</p>
+<img src="/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/output_powershell.png" class="" title="Script output">
+
+
+
+
+
 
     </div>
 
