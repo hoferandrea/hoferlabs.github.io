@@ -62,9 +62,9 @@
     
     <category term="Bicep" scheme="http://hoferlabs.ch/tags/Bicep/"/>
     
-    <category term="Automation" scheme="http://hoferlabs.ch/tags/Automation/"/>
-    
     <category term="Sentinel" scheme="http://hoferlabs.ch/tags/Sentinel/"/>
+    
+    <category term="Automation" scheme="http://hoferlabs.ch/tags/Automation/"/>
     
   </entry>
   
