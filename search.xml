@@ -1,84 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Sentinel Playground - Bicep Edition</title>
-    <url>/2023/04/25/Sentinel-Playground-Bicep-Edition/</url>
-    <content><![CDATA[<p>Sentinel Playground is a project that aims to speed up deployment and configuration tasks of a Sentinel Lab&#x2F;Demo environment, including sample content and Bicep Templates. This project seeks to use Bicep only.</p>
-<span id="more"></span>
-
-<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>The following components can be deployed&#x2F;configured:</p>
-<ul>
-<li>resource group</li>
-<li>Log Analytics workspace + Sentinel solution</li>
-<li>Log Analytics workspace config (retention, daily cap)</li>
-<li>Sentinel config (UEBA, Anomalies)</li>
-<li>Sentinel data connectors<ul>
-<li>Azure Activity</li>
-<li>Azure Active Directory</li>
-<li>Defender 365 incidents</li>
-</ul>
-</li>
-<li>demo playbook (with a user-assigned Managed Identity + required permissions)</li>
-<li>Sentinel permissions to trigger playbooks</li>
-<li>Sentinel Content (including Bicep templates)<ul>
-<li>analytics rule</li>
-<li>automation rule</li>
-<li>log query (in a query pack)</li>
-<li>watchlist (with CSV-support)</li>
-</ul>
-</li>
-<li>all analytics rules for Azure Activity and Azure Active Directory are enabled</li>
-</ul>
-<p><strong>You can find the ReadMe including Deployment Instructions in my public repository <a href="https://github.com/hoferandrea/Sentinel-Playground-Bicep-Edition">here</a>.</strong></p>
-<p>I will explain some of the key elements in seperate Blog Posts:</p>
-<ul>
-<li>Deployment Scripts + user-assigned Managed Identities</li>
-<li>Modules and reusablitly</li>
-<li>API Connections + Logic Apps</li>
-<li>Watchlists + CSV Files</li>
-<li>UI Wizard</li>
-<li>Outputs and Conditions</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Bicep</category>
-        <category>Sentinel</category>
-        <category>Automation</category>
-      </categories>
-      <tags>
-        <tag>Bicep</tag>
-        <tag>Sentinel</tag>
-        <tag>Automation</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Bicep | Deployment Scripts</title>
     <url>/2023/05/07/Bicep-Deployment-Scripts/</url>
-    <content><![CDATA[<h1 id="Intro-and-possible-use-cases"><a href="#Intro-and-possible-use-cases" class="headerlink" title="Intro and possible use cases"></a>Intro and possible use cases</h1><p>For a project I needed to create AAD groups while only having a single Bicep&#x2F;ARM deployment (inlcuding UI Wizard)… I decided to go with deployment scripts (Powershell) and a user-assigned Managed Identity.</p>
+    <content><![CDATA[<h1 id="Intro-and-possible-use-cases"><a href="#Intro-and-possible-use-cases" class="headerlink" title="Intro and possible use cases"></a>Intro and possible use cases</h1><p>For a project I needed to create AAD groups while only having a single Bicep&#x2F;ARM deployment (including UI Wizard)… I decided to go with deployment scripts (Powershell) and a user-assigned Managed Identity. This approach can be used for <a href="https://learn.microsoft.com/en-us/partner-center/marketplace/plan-azure-app-solution-template">Azure Market Place offers</a>.</p>
 <p><a href="https://learn.microsoft.com/en-us/training/modules/extend-resource-manager-template-deployment-scripts/1-introduction">Deployment scripts in ARM&#x2F;Bicep enable custom automation for your environment management. You use deployment scripts to execute your own scripts within your ARM template deployments.</a></p>
 <p>Possible use cases (not complete): </p>
 <ul>
 <li>create resources which can’t be described using Bicep, e.g.:<ul>
 <li>AAD users &#x2F; groups</li>
-<li>External identitites settings like catalogs and access packages</li>
+<li>External identities settings like catalogs and access packages</li>
 <li>Identity governance settings like connected organizations</li>
 </ul>
 </li>
 <li>consume external APIs</li>
 </ul>
-<p>Outputs from deploment scripts can be “returned” (e.g created AAD group identifiers).  </p>
+<p>Outputs from deployment scripts can be “returned” (e.g created AAD group identifiers).  </p>
 <span id="more"></span>
 
 <h1 id="Scenario-for-this-blog-post"><a href="#Scenario-for-this-blog-post" class="headerlink" title="Scenario for this blog post"></a>Scenario for this blog post</h1><p>I created a small project to outline different options in Bicep: </p>
 <ul>
-<li>describe user “<a href="mailto:&#x6a;&#111;&#x68;&#x6e;&#46;&#99;&#x6f;&#110;&#x74;&#x6f;&#115;&#x6f;&#64;&#x68;&#111;&#x66;&#x65;&#114;&#x6c;&#97;&#98;&#115;&#x2e;&#x63;&#x68;">&#x6a;&#111;&#x68;&#x6e;&#46;&#99;&#x6f;&#110;&#x74;&#x6f;&#115;&#x6f;&#64;&#x68;&#111;&#x66;&#x65;&#114;&#x6c;&#97;&#98;&#115;&#x2e;&#x63;&#x68;</a>“ (deployment script)</li>
+<li>describe user “<a href="mailto:&#106;&#111;&#x68;&#x6e;&#46;&#99;&#x6f;&#110;&#116;&#111;&#115;&#x6f;&#x40;&#104;&#111;&#x66;&#x65;&#114;&#x6c;&#97;&#x62;&#x73;&#46;&#99;&#x68;">&#106;&#111;&#x68;&#x6e;&#46;&#99;&#x6f;&#110;&#116;&#111;&#115;&#x6f;&#x40;&#104;&#111;&#x66;&#x65;&#114;&#x6c;&#97;&#x62;&#x73;&#46;&#99;&#x68;</a>“ (deployment script)</li>
 <li>describe group “Sales” and describe Johns Membership (deployment script)</li>
 <li>describe storage account and a file share (Bicep)</li>
 <li>describe group Azure roles Storage File Data SMB Share Contributor (Bicep)</li>
 </ul>
 <p>In this post, we focus on the deployment scripts and the required setup. <a href="https://github.com/hoferandrea/blog/tree/main/DeploymentScriptAndUiWizard">You can find the newest versions in my public Repo.</a></p>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><h2 id="Setup-Script"><a href="#Setup-Script" class="headerlink" title="Setup Script"></a>Setup Script</h2><p>Deployment scripts don’t use the context (&#x2F;permissions) of the user which deploys the Bicep template, instead they can use a <strong>user-assigned Managed Identity</strong> which needs the required permissions. And because Deployments Scripts will automatically create a Storage Account and Container, we also need a temporary deployment resource group.</p>
-<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token string">"#################################################"</span>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><h2 id="Setup-Script"><a href="#Setup-Script" class="headerlink" title="Setup Script"></a>Setup Script</h2><p>Deployment scripts don’t use the context (&#x2F;permissions) of the user which deploys the Bicep template, instead they can use a <strong>user-assigned Managed Identity</strong> which needs the required permissions. And because deployments scripts will automatically create a Storage Account and Container, we also need a temporary deployment resource group.</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><div class="caption"><span>setup.ps1</span><a href="https://github.com/hoferandrea/blog/tree/main/DeploymentScriptAndUiWizard">setup.ps1</a></div><code class="language-powershell"><span class="token string">"#################################################"</span>
 <span class="token string">"# hoferlabs.ch                                  #"</span>
 <span class="token string">"# implement requirements for deployment script  #"</span>
 <span class="token string">"# Version: 0.1                                  #"</span>
@@ -90,7 +39,7 @@
 <span class="token variable">$strLocation</span> = <span class="token string">"Switzerlandnorth"</span>
 <span class="token variable">$arrPermissions</span> = <span class="token string">"User.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"Group.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"Directory.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"GroupMember.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"RoleManagement.ReadWrite.Directory"</span> 
 
-<span class="token comment"># "RoleManagement.ReadWrite.Directory" is needed if we create a group which can be assigne Azure roles</span>
+<span class="token comment"># "RoleManagement.ReadWrite.Directory" is needed if we create a group which can be assigned Azure roles</span>
 
 <span class="token comment"># do not edit</span>
 <span class="token variable">$strGraphAppId</span> = <span class="token string">"00000003-0000-0000-c000-000000000000"</span>
@@ -132,8 +81,7 @@
 
 
 <h2 id="Bicep-Template"><a href="#Bicep-Template" class="headerlink" title="Bicep Template"></a>Bicep Template</h2><p>This is the main template. <a href="https://github.com/hoferandrea/blog/tree/main/DeploymentScriptAndUiWizard">You can find the newest versions and all submodules in my public Repo.</a></p>
-<pre class="line-numbers language-bicep" data-language="bicep"><div class="caption"><span>mainTemplate.bicep</span><a href="https://github.com/hoferandrea/blog/tree/main/DeploymentScriptAndUiWizard">mainTemplate.bicep</a></div><code class="language-bicep">
-<span class="token keyword">param</span> uamiName <span class="token datatype class-name">string</span> <span class="token operator">=</span> <span class="token string">'mi-deploymentScript-10'</span>
+<pre class="line-numbers language-bicep" data-language="bicep"><div class="caption"><span>mainTemplate.bicep</span><a href="https://github.com/hoferandrea/blog/tree/main/DeploymentScriptAndUiWizard">mainTemplate.bicep</a></div><code class="language-bicep"><span class="token keyword">param</span> uamiName <span class="token datatype class-name">string</span> <span class="token operator">=</span> <span class="token string">'mi-deploymentScript-10'</span>
 <span class="token keyword">param</span> userPrincipalName <span class="token datatype class-name">string</span> <span class="token operator">=</span> <span class="token string">'john.contoso@hoferlabs.ch'</span>
 <span class="token keyword">param</span> userDisplayName <span class="token datatype class-name">string</span> <span class="token operator">=</span> <span class="token string">'John Contoso'</span>
 <span class="token keyword">param</span> groupName <span class="token datatype class-name">string</span> <span class="token operator">=</span> <span class="token string">'Sales'</span>
@@ -206,17 +154,17 @@
   <span class="token property">dependsOn</span><span class="token operator">:</span> <span class="token punctuation">[</span> deploymentScriptAadGroup<span class="token punctuation">,</span> storageAccountFileShare <span class="token punctuation">]</span>
   <span class="token property">scope</span><span class="token operator">:</span> <span class="token function">resourceGroup</span><span class="token punctuation">(</span>targetResourceGroup<span class="token punctuation">)</span>
   <span class="token property">params</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
-    <span class="token property">prinipalId</span><span class="token operator">:</span> deploymentScriptAadGroup<span class="token punctuation">.</span>outputs<span class="token punctuation">.</span>groupId
+    <span class="token property">principalId</span><span class="token operator">:</span> deploymentScriptAadGroup<span class="token punctuation">.</span>outputs<span class="token punctuation">.</span>groupId
     <span class="token property">roleDefinitionId</span><span class="token operator">:</span> <span class="token string">'0c867c2a-1d8c-454a-a3db-ab2ea1bdc8bb'</span> <span class="token comment">// Storage File Data SMB Share Contributor</span>
     <span class="token property">storageAccountName</span><span class="token operator">:</span> storageAccountName
 
   <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h2 id="Deployment-and-clean-up"><a href="#Deployment-and-clean-up" class="headerlink" title="Deployment and clean up"></a>Deployment and clean up</h2><p>First we build the ARM File using <code>az bicep build --file .\mainTemplate.bicep</code>, then we deploy it using the portal: </p>
 <img src="/2023/05/07/Bicep-Deployment-Scripts/img/img_custom_deployment.png" class="" title="custom deployment">
-<p>The UI looks terrible, we create a nice looking UI Wizard in the next blog post.</p>
-<p>After a while, the deployment suceeds:</p>
+<p>The UI looks terrible, we will deal with that later.</p>
+<p>After a while, the deployment succeeds:</p>
 <img src="/2023/05/07/Bicep-Deployment-Scripts/img/img_custom_deployment_succeed.png" class="" title="custom deployment">
 
 <p>To delete the deployment resource group, use the command from the setup script.</p>
@@ -245,7 +193,7 @@
 <span class="token keyword">output</span> userId <span class="token datatype class-name">string</span> <span class="token operator">=</span> createAadUser<span class="token punctuation">.</span>properties<span class="token punctuation">.</span>outputs<span class="token punctuation">.</span>userId
 <span class="token keyword">output</span> result <span class="token datatype class-name">string</span> <span class="token operator">=</span> createAadUser<span class="token punctuation">.</span>properties<span class="token punctuation">.</span>outputs<span class="token punctuation">.</span>result<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>We require AZ Powershell version 8.3 and define the user-assigned managed identity. We pass two arguments to the deployment script. We use <code>\\&quot;</code> to escape the <code>&quot;</code>, that way we are able to pass parameters with spaces (e.g. group description). </p>
-<p>At the bottom, we see the expected output from the deployment script. In Powershell we have to create a hastable:</p>
+<p>At the bottom, we see the expected output from the deployment script. In Powershell we have to create a hashtable:</p>
 <pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token variable">$DeploymentScriptOutputs</span> = @<span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
 <span class="token variable">$DeploymentScriptOutputs</span><span class="token punctuation">[</span><span class="token string">"userId"</span><span class="token punctuation">]</span> = $<span class="token punctuation">(</span><span class="token variable">$objUser</span><span class="token punctuation">.</span>id<span class="token punctuation">)</span>
 <span class="token variable">$DeploymentScriptOutputs</span><span class="token punctuation">[</span><span class="token string">"result"</span><span class="token punctuation">]</span> = <span class="token variable">$result</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
@@ -261,7 +209,7 @@
   <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h2 id="Redeployments"><a href="#Redeployments" class="headerlink" title="Redeployments"></a>Redeployments</h2><p>Because our deployments scripts are designed for multiple deployments (IaC approach) we can rerun the deployment with the same parameters again and it still suceeds.</p>
+<h2 id="Redeployments"><a href="#Redeployments" class="headerlink" title="Redeployments"></a>Redeployments</h2><p>Because our deployments scripts are designed for multiple deployments (IaC approach) we can rerun the deployment with the same parameters again and it still succeeds.</p>
 <img src="/2023/05/07/Bicep-Deployment-Scripts/img/img_custom_deployment_userexists.png" class="" title="redeployment">
 
 
@@ -278,68 +226,12 @@
 
 <p>As you can see, the Container runs as our defined user-assigned managed identity. We can run and test our deployment scripts directly in the container instance.</p>
 <p>You can set the retention of the deployment resources in Bicep (retention of storage account&#x2F;container for the deployment).</p>
-<h2 id="UI-Wizard"><a href="#UI-Wizard" class="headerlink" title="UI Wizard"></a>UI Wizard</h2>]]></content>
+<h2 id="UI-Wizard"><a href="#UI-Wizard" class="headerlink" title="UI Wizard"></a>UI Wizard</h2><p>We will replace the ugly default UI page with a nicer version in the next post.</p>
+]]></content>
       <tags>
         <tag>Bicep</tag>
         <tag>Automation</tag>
         <tag>Azure</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Powershell/Graph | Assign Graph Application Permissions</title>
-    <url>/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/</url>
-    <content><![CDATA[<p>The <a href="https://learn.microsoft.com/en-us/graph/migrate-azure-ad-graph-faq">Azure Active Directory module is not supported in newer Powershell versions (7+) and will be retired at any time after June 30, 2023</a>. I used a script by <a href="https://gist.github.com/maayanlux/e6ca2d92b3d5a13a3905dff3244495db">maayanlux</a> from the <a href="https://azurecloudai.blog/2023/03/22/azure-ad-powershell-to-microsoft-graph-powershell/">Azure Cloud AI Blog</a> to assign Graph Application Permissions in the past, but couldn’t get it working with newer Powershell Versions. </p>
-<p>The new way is to use the Graph Module (&#x2F;API). I found a script from <a href="https://jannikreinhard.com/2023/04/09/how-to-start-with-azure-automation-runbook-to-automate-tasks-in-intune/">Jannik Reinhard</a> but it doesn’t support multiple permissions. Let’s combine them… I also added a verify step which shows current assigned permissions and when they were assigned…</p>
-<span id="more"></span>
-
-<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token string">"####################################################################################################################################"</span>
-<span class="token string">"# hoferlabs.ch                                                                                                                     #"</span>
-<span class="token string">"# assign Graph application permissions using Graph Powershell Module                                                               #"</span>
-<span class="token string">"# Version: 0.1                                                                                                                     #"</span>
-<span class="token string">"# Inspired by https://jannikreinhard.com/2023/04/09/how-to-start-with-azure-automation-runbook-to-automate-tasks-in-intune/ and    #"</span>
-<span class="token string">"# https://azurecloudai.blog/2023/03/22/azure-ad-powershell-to-microsoft-graph-powershell/                                          #"</span>
-<span class="token string">"####################################################################################################################################"</span>
-
-<span class="token comment"># edit here</span>
-<span class="token comment"># for enteprise applications / managed identitites: use the object id of the enterprise application</span>
-<span class="token variable">$strAppId</span> = <span class="token string">"c2280552-0c9a-43e7-8f44-e862d30c8058"</span>
-<span class="token variable">$arrPermissions</span> = <span class="token string">"User.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"Group.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"Directory.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"GroupMember.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"RoleManagement.ReadWrite.Directory"</span> 
-
-<span class="token comment"># do not edit</span>
-<span class="token variable">$strGraphAppId</span> = <span class="token string">"00000003-0000-0000-c000-000000000000"</span>
-
-<span class="token function">Connect-MgGraph</span> <span class="token operator">-</span>Scopes Application<span class="token punctuation">.</span>Read<span class="token punctuation">.</span>All<span class="token punctuation">,</span> AppRoleAssignment<span class="token punctuation">.</span>ReadWrite<span class="token punctuation">.</span>All<span class="token punctuation">,</span> RoleManagement<span class="token punctuation">.</span>ReadWrite<span class="token punctuation">.</span>Directory
-
-<span class="token string">"get graph app..."</span>
-<span class="token variable">$objGraphApp</span> = <span class="token function">Get-MgServicePrincipal</span> <span class="token operator">-</span><span class="token keyword">Filter</span> <span class="token string">"AppId eq '<span class="token variable">$strGraphAppId</span>'"</span>
-
-<span class="token string">"assign permissions..."</span>
-<span class="token keyword">ForEach</span> <span class="token punctuation">(</span><span class="token variable">$strPermission</span> in <span class="token variable">$arrPermissions</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token string">" assign permission <span class="token variable">$strPermission</span>..."</span>
-    <span class="token variable">$objRole</span> = <span class="token variable">$objGraphApp</span><span class="token punctuation">.</span>AppRoles <span class="token punctuation">|</span> <span class="token function">Where-Object</span> <span class="token punctuation">&#123;</span> <span class="token variable">$_</span><span class="token punctuation">.</span>Value <span class="token operator">-eq</span> <span class="token variable">$strPermission</span> <span class="token punctuation">&#125;</span>
-    <span class="token variable">$objResult</span> = <span class="token function">New-MgServicePrincipalAppRoleAssignment</span> <span class="token operator">-</span>ServicePrincipalId <span class="token variable">$strAppId</span> <span class="token operator">-</span>PrincipalId <span class="token variable">$strAppId</span> <span class="token operator">-</span>ResourceId <span class="token variable">$objGraphApp</span><span class="token punctuation">.</span>Id <span class="token operator">-</span>AppRoleId <span class="token variable">$objRole</span><span class="token punctuation">.</span>Id
-<span class="token punctuation">&#125;</span>
-
-<span class="token string">"verify permissions..."</span>
-<span class="token variable">$arrRoleAssignment</span> = <span class="token function">Get-MgServicePrincipalAppRoleAssignment</span> <span class="token operator">-</span>ServicePrincipalId <span class="token variable">$strAppId</span>
-<span class="token keyword">ForEach</span> <span class="token punctuation">(</span><span class="token variable">$objRoleAssignment</span> in <span class="token variable">$arrRoleAssignment</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token variable">$objRole</span> = <span class="token variable">$objGraphApp</span><span class="token punctuation">.</span>AppRoles <span class="token punctuation">|</span> <span class="token function">Where-Object</span> <span class="token punctuation">&#123;</span> <span class="token variable">$_</span><span class="token punctuation">.</span>Id <span class="token operator">-eq</span> <span class="token variable">$objRoleAssignment</span><span class="token punctuation">.</span>AppRoleId<span class="token punctuation">&#125;</span>
-    <span class="token string">" assignment for app role <span class="token function">$<span class="token punctuation">(</span><span class="token variable">$objRole</span><span class="token punctuation">.</span>Value<span class="token punctuation">)</span></span> was created on <span class="token function">$<span class="token punctuation">(</span><span class="token variable">$objRoleAssignment</span><span class="token punctuation">.</span>CreatedDateTime<span class="token punctuation">)</span></span> (ID: <span class="token function">$<span class="token punctuation">(</span><span class="token variable">$objRoleAssignment</span><span class="token punctuation">.</span>AppRoleId<span class="token punctuation">)</span></span>)"</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>Script outputs for assigning permissions to a managed identity:</p>
-<img src="/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/script_output.png" class="" title="Script output">
-
-<p>Permissions:</p>
-<img src="/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/app_permissions.png" class="" title="App permissions">
-
-
-
-
-]]></content>
-      <tags>
-        <tag>Powershell</tag>
-        <tag>Graph API</tag>
       </tags>
   </entry>
   <entry>
@@ -391,9 +283,117 @@
 
 ]]></content>
       <tags>
-        <tag>Powershell</tag>
         <tag>KQL</tag>
+        <tag>Powershell</tag>
         <tag>Regex</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Sentinel Playground - Bicep Edition</title>
+    <url>/2023/04/25/Sentinel-Playground-Bicep-Edition/</url>
+    <content><![CDATA[<p>Sentinel Playground is a project that aims to speed up deployment and configuration tasks of a Sentinel Lab&#x2F;Demo environment, including sample content and Bicep Templates. This project seeks to use Bicep only.</p>
+<span id="more"></span>
+
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>The following components can be deployed&#x2F;configured:</p>
+<ul>
+<li>resource group</li>
+<li>Log Analytics workspace + Sentinel solution</li>
+<li>Log Analytics workspace config (retention, daily cap)</li>
+<li>Sentinel config (UEBA, Anomalies)</li>
+<li>Sentinel data connectors<ul>
+<li>Azure Activity</li>
+<li>Azure Active Directory</li>
+<li>Defender 365 incidents</li>
+</ul>
+</li>
+<li>demo playbook (with a user-assigned Managed Identity + required permissions)</li>
+<li>Sentinel permissions to trigger playbooks</li>
+<li>Sentinel Content (including Bicep templates)<ul>
+<li>analytics rule</li>
+<li>automation rule</li>
+<li>log query (in a query pack)</li>
+<li>watchlist (with CSV-support)</li>
+</ul>
+</li>
+<li>all analytics rules for Azure Activity and Azure Active Directory are enabled</li>
+</ul>
+<p><strong>You can find the ReadMe including Deployment Instructions in my public repository <a href="https://github.com/hoferandrea/Sentinel-Playground-Bicep-Edition">here</a>.</strong></p>
+<p>I will explain some of the key elements in seperate Blog Posts:</p>
+<ul>
+<li>Deployment Scripts + user-assigned Managed Identities</li>
+<li>Modules and reusablitly</li>
+<li>API Connections + Logic Apps</li>
+<li>Watchlists + CSV Files</li>
+<li>UI Wizard</li>
+<li>Outputs and Conditions</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Bicep</category>
+        <category>Sentinel</category>
+        <category>Automation</category>
+      </categories>
+      <tags>
+        <tag>Bicep</tag>
+        <tag>Sentinel</tag>
+        <tag>Automation</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Powershell/Graph | Assign Graph Application Permissions</title>
+    <url>/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/</url>
+    <content><![CDATA[<p>The <a href="https://learn.microsoft.com/en-us/graph/migrate-azure-ad-graph-faq">Azure Active Directory module is not supported in newer Powershell versions (7+) and will be retired at any time after June 30, 2023</a>. I used a script by <a href="https://gist.github.com/maayanlux/e6ca2d92b3d5a13a3905dff3244495db">maayanlux</a> from the <a href="https://azurecloudai.blog/2023/03/22/azure-ad-powershell-to-microsoft-graph-powershell/">Azure Cloud AI Blog</a> to assign Graph Application Permissions in the past, but couldn’t get it working with newer Powershell Versions. </p>
+<p>The new way is to use the Graph Module (&#x2F;API). I found a script from <a href="https://jannikreinhard.com/2023/04/09/how-to-start-with-azure-automation-runbook-to-automate-tasks-in-intune/">Jannik Reinhard</a> but it doesn’t support multiple permissions. Let’s combine them… I also added a verify step which shows current assigned permissions and when they were assigned…</p>
+<span id="more"></span>
+
+<pre class="line-numbers language-powershell" data-language="powershell"><div class="caption"><span>assignGraphPermissions.ps1</span><a href="https://github.com/hoferandrea/blog/tree/main/assignGraphPermissions">assignGraphPermissions.ps1</a></div><code class="language-powershell"><span class="token string">"####################################################################################################################################"</span>
+<span class="token string">"# hoferlabs.ch                                                                                                                     #"</span>
+<span class="token string">"# assign Graph application permissions using Graph Powershell Module                                                               #"</span>
+<span class="token string">"# Version: 0.1                                                                                                                     #"</span>
+<span class="token string">"# Inspired by https://jannikreinhard.com/2023/04/09/how-to-start-with-azure-automation-runbook-to-automate-tasks-in-intune/ and    #"</span>
+<span class="token string">"# https://azurecloudai.blog/2023/03/22/azure-ad-powershell-to-microsoft-graph-powershell/                                          #"</span>
+<span class="token string">"####################################################################################################################################"</span>
+
+<span class="token comment"># edit here</span>
+<span class="token comment"># for enterprise applications / managed identities: use the object id of the enterprise application</span>
+<span class="token variable">$strAppId</span> = <span class="token string">"c2280552-0c9a-43e7-8f44-e862d30c8058"</span>
+<span class="token variable">$arrPermissions</span> = <span class="token string">"User.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"Group.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"Directory.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"GroupMember.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"RoleManagement.ReadWrite.Directory"</span> 
+
+<span class="token comment"># do not edit</span>
+<span class="token variable">$strGraphAppId</span> = <span class="token string">"00000003-0000-0000-c000-000000000000"</span>
+
+<span class="token function">Connect-MgGraph</span> <span class="token operator">-</span>Scopes Application<span class="token punctuation">.</span>Read<span class="token punctuation">.</span>All<span class="token punctuation">,</span> AppRoleAssignment<span class="token punctuation">.</span>ReadWrite<span class="token punctuation">.</span>All<span class="token punctuation">,</span> RoleManagement<span class="token punctuation">.</span>ReadWrite<span class="token punctuation">.</span>Directory
+
+<span class="token string">"get graph app..."</span>
+<span class="token variable">$objGraphApp</span> = <span class="token function">Get-MgServicePrincipal</span> <span class="token operator">-</span><span class="token keyword">Filter</span> <span class="token string">"AppId eq '<span class="token variable">$strGraphAppId</span>'"</span>
+
+<span class="token string">"assign permissions..."</span>
+<span class="token keyword">ForEach</span> <span class="token punctuation">(</span><span class="token variable">$strPermission</span> in <span class="token variable">$arrPermissions</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">" assign permission <span class="token variable">$strPermission</span>..."</span>
+    <span class="token variable">$objRole</span> = <span class="token variable">$objGraphApp</span><span class="token punctuation">.</span>AppRoles <span class="token punctuation">|</span> <span class="token function">Where-Object</span> <span class="token punctuation">&#123;</span> <span class="token variable">$_</span><span class="token punctuation">.</span>Value <span class="token operator">-eq</span> <span class="token variable">$strPermission</span> <span class="token punctuation">&#125;</span>
+    <span class="token variable">$objResult</span> = <span class="token function">New-MgServicePrincipalAppRoleAssignment</span> <span class="token operator">-</span>ServicePrincipalId <span class="token variable">$strAppId</span> <span class="token operator">-</span>PrincipalId <span class="token variable">$strAppId</span> <span class="token operator">-</span>ResourceId <span class="token variable">$objGraphApp</span><span class="token punctuation">.</span>Id <span class="token operator">-</span>AppRoleId <span class="token variable">$objRole</span><span class="token punctuation">.</span>Id
+<span class="token punctuation">&#125;</span>
+
+<span class="token string">"verify permissions..."</span>
+<span class="token variable">$arrRoleAssignment</span> = <span class="token function">Get-MgServicePrincipalAppRoleAssignment</span> <span class="token operator">-</span>ServicePrincipalId <span class="token variable">$strAppId</span>
+<span class="token keyword">ForEach</span> <span class="token punctuation">(</span><span class="token variable">$objRoleAssignment</span> in <span class="token variable">$arrRoleAssignment</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token variable">$objRole</span> = <span class="token variable">$objGraphApp</span><span class="token punctuation">.</span>AppRoles <span class="token punctuation">|</span> <span class="token function">Where-Object</span> <span class="token punctuation">&#123;</span> <span class="token variable">$_</span><span class="token punctuation">.</span>Id <span class="token operator">-eq</span> <span class="token variable">$objRoleAssignment</span><span class="token punctuation">.</span>AppRoleId<span class="token punctuation">&#125;</span>
+    <span class="token string">" assignment for app role <span class="token function">$<span class="token punctuation">(</span><span class="token variable">$objRole</span><span class="token punctuation">.</span>Value<span class="token punctuation">)</span></span> was created on <span class="token function">$<span class="token punctuation">(</span><span class="token variable">$objRoleAssignment</span><span class="token punctuation">.</span>CreatedDateTime<span class="token punctuation">)</span></span> (ID: <span class="token function">$<span class="token punctuation">(</span><span class="token variable">$objRoleAssignment</span><span class="token punctuation">.</span>AppRoleId<span class="token punctuation">)</span></span>)"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Script outputs for assigning permissions to a managed identity:</p>
+<img src="/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/script_output.png" class="" title="Script output">
+
+<p>Permissions:</p>
+<img src="/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/app_permissions.png" class="" title="App permissions">
+
+
+
+
+]]></content>
+      <tags>
+        <tag>Powershell</tag>
+        <tag>Graph API</tag>
       </tags>
   </entry>
   <entry>
@@ -434,11 +434,6 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>All Tags</title>
-    <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>Useful Links</title>
     <url>/Useful-Links/index.html</url>
     <content><![CDATA[<h1 id="KQL"><a href="#KQL" class="headerlink" title="KQL"></a>KQL</h1><ul>
@@ -457,5 +452,10 @@
 <li><a href="https://jwt.ms/">Decode an encoded JWT Token and see the contents</a></li>
 </ul>
 ]]></content>
+  </entry>
+  <entry>
+    <title>All Tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>

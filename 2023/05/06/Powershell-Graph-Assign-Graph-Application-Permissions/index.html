@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://hoferlabs.ch/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/script_output.png">
 <meta property="og:image" content="http://hoferlabs.ch/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/app_permissions.png">
 <meta property="article:published_time" content="2023-05-06T19:14:30.000Z">
-<meta property="article:modified_time" content="2023-05-07T05:02:23.640Z">
+<meta property="article:modified_time" content="2023-05-07T10:07:39.394Z">
 <meta property="article:author" content="Andrea Hofer">
 <meta property="article:tag" content="Powershell">
 <meta property="article:tag" content="Graph API">
@@ -202,7 +202,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-05-07 07:02:23" itemprop="dateModified" datetime="2023-05-07T07:02:23+02:00">2023-05-07</time>
+      <time title="Modified: 2023-05-07 12:07:39" itemprop="dateModified" datetime="2023-05-07T12:07:39+02:00">2023-05-07</time>
     </span>
 
   
@@ -218,7 +218,7 @@
 <p>The new way is to use the Graph Module (&#x2F;API). I found a script from <a target="_blank" rel="noopener" href="https://jannikreinhard.com/2023/04/09/how-to-start-with-azure-automation-runbook-to-automate-tasks-in-intune/">Jannik Reinhard</a> but it doesn’t support multiple permissions. Let’s combine them… I also added a verify step which shows current assigned permissions and when they were assigned…</p>
 <span id="more"></span>
 
-<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token string">"####################################################################################################################################"</span>
+<pre class="line-numbers language-powershell" data-language="powershell"><div class="caption"><span>assignGraphPermissions.ps1</span><a target="_blank" rel="noopener" href="https://github.com/hoferandrea/blog/tree/main/assignGraphPermissions">assignGraphPermissions.ps1</a></div><code class="language-powershell"><span class="token string">"####################################################################################################################################"</span>
 <span class="token string">"# hoferlabs.ch                                                                                                                     #"</span>
 <span class="token string">"# assign Graph application permissions using Graph Powershell Module                                                               #"</span>
 <span class="token string">"# Version: 0.1                                                                                                                     #"</span>
@@ -227,7 +227,7 @@
 <span class="token string">"####################################################################################################################################"</span>
 
 <span class="token comment"># edit here</span>
-<span class="token comment"># for enteprise applications / managed identitites: use the object id of the enterprise application</span>
+<span class="token comment"># for enterprise applications / managed identities: use the object id of the enterprise application</span>
 <span class="token variable">$strAppId</span> = <span class="token string">"c2280552-0c9a-43e7-8f44-e862d30c8058"</span>
 <span class="token variable">$arrPermissions</span> = <span class="token string">"User.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"Group.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"Directory.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"GroupMember.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"RoleManagement.ReadWrite.Directory"</span> 
 

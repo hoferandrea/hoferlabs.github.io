@@ -11,10 +11,10 @@ http://hoferlabs.ch/tags/Bicep/
 http://hoferlabs.ch/tags/Sentinel/
 http://hoferlabs.ch/tags/Automation/
 http://hoferlabs.ch/tags/Azure/
-http://hoferlabs.ch/tags/Powershell/
-http://hoferlabs.ch/tags/Graph-API/
 http://hoferlabs.ch/tags/KQL/
+http://hoferlabs.ch/tags/Powershell/
 http://hoferlabs.ch/tags/Regex/
+http://hoferlabs.ch/tags/Graph-API/
 http://hoferlabs.ch/categories/Bicep/
 http://hoferlabs.ch/categories/Bicep/Sentinel/
 http://hoferlabs.ch/categories/Bicep/Sentinel/Automation/
