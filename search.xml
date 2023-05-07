@@ -47,8 +47,8 @@
       </categories>
       <tags>
         <tag>Bicep</tag>
-        <tag>Automation</tag>
         <tag>Sentinel</tag>
+        <tag>Automation</tag>
       </tags>
   </entry>
   <entry>
@@ -108,7 +108,7 @@
   <entry>
     <title>Bicep | Deployment Scripts</title>
     <url>/2023/05/07/Bicep-Deployment-Scripts/</url>
-    <content><![CDATA[<h1 id="Intro-and-possible-use-cases"><a href="#Intro-and-possible-use-cases" class="headerlink" title="Intro and possible use cases"></a>Intro and possible use cases</h1><p>For a project I needed to create AAD groups while only having a single Bicep&#x2F;ARM deployment (including UI Wizard)… I decided to go with deployment scripts (Powershell) and a user-assigned Managed Identity. This approach can be used for <a href="https://learn.microsoft.com/en-us/partner-center/marketplace/plan-azure-app-solution-template">Azure Market Place offers</a>.</p>
+    <content><![CDATA[<h1 id="Intro-and-use-cases"><a href="#Intro-and-use-cases" class="headerlink" title="Intro and use cases"></a>Intro and use cases</h1><p>For a project I needed to create AAD groups while only having a single Bicep&#x2F;ARM deployment (including UI Wizard)… I decided to go with deployment scripts (Powershell) and a user-assigned Managed Identity. This approach can also be used for <a href="https://learn.microsoft.com/en-us/partner-center/marketplace/plan-azure-app-solution-template">Azure Market Place offers</a>.</p>
 <p><a href="https://learn.microsoft.com/en-us/training/modules/extend-resource-manager-template-deployment-scripts/1-introduction">Deployment scripts in ARM&#x2F;Bicep enable custom automation for your environment management. You use deployment scripts to execute your own scripts within your ARM template deployments.</a></p>
 <p>Possible use cases (not complete): </p>
 <ul>
@@ -125,7 +125,7 @@
 
 <h1 id="Scenario-for-this-blog-post"><a href="#Scenario-for-this-blog-post" class="headerlink" title="Scenario for this blog post"></a>Scenario for this blog post</h1><p>I created a small project to outline different options in Bicep: </p>
 <ul>
-<li>describe user “<a href="mailto:&#x6a;&#x6f;&#x68;&#x6e;&#x2e;&#x63;&#x6f;&#x6e;&#x74;&#111;&#x73;&#x6f;&#64;&#104;&#111;&#x66;&#101;&#x72;&#x6c;&#97;&#x62;&#115;&#46;&#x63;&#104;">&#x6a;&#x6f;&#x68;&#x6e;&#x2e;&#x63;&#x6f;&#x6e;&#x74;&#111;&#x73;&#x6f;&#64;&#104;&#111;&#x66;&#101;&#x72;&#x6c;&#97;&#x62;&#115;&#46;&#x63;&#104;</a>“ (deployment script)</li>
+<li>describe user “<a href="mailto:&#x6a;&#x6f;&#x68;&#110;&#x2e;&#x63;&#111;&#110;&#116;&#111;&#x73;&#111;&#x40;&#x68;&#x6f;&#102;&#101;&#114;&#x6c;&#97;&#98;&#x73;&#46;&#x63;&#x68;">&#x6a;&#x6f;&#x68;&#110;&#x2e;&#x63;&#111;&#110;&#116;&#111;&#x73;&#111;&#x40;&#x68;&#x6f;&#102;&#101;&#114;&#x6c;&#97;&#98;&#x73;&#46;&#x63;&#x68;</a>“ (deployment script)</li>
 <li>describe group “Sales” and describe Johns Membership (deployment script)</li>
 <li>describe storage account and a file share (Bicep)</li>
 <li>describe group Azure roles Storage File Data SMB Share Contributor (Bicep)</li>
@@ -335,8 +335,8 @@
 ]]></content>
       <tags>
         <tag>Bicep</tag>
-        <tag>Azure</tag>
         <tag>Automation</tag>
+        <tag>Azure</tag>
       </tags>
   </entry>
   <entry>
@@ -397,11 +397,6 @@
       </tags>
   </entry>
   <entry>
-    <title>All Tags</title>
-    <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>About</title>
     <url>/About/index.html</url>
     <content><![CDATA[<h1 id="About-me"><a href="#About-me" class="headerlink" title="About me"></a>About me</h1><ul>
@@ -457,5 +452,10 @@
 <li><a href="https://jwt.ms/">Decode an encoded JWT Token and see the contents</a></li>
 </ul>
 ]]></content>
+  </entry>
+  <entry>
+    <title>All Tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>
