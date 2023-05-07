@@ -4,8 +4,8 @@ http://hoferlabs.ch/About/index.html
 http://hoferlabs.ch/2023/04/25/Sentinel-Playground-Bicep-Edition/
 http://hoferlabs.ch/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/
 http://hoferlabs.ch/Useful-Links/index.html
-http://hoferlabs.ch/categories/index.html
 http://hoferlabs.ch/tags/index.html
+http://hoferlabs.ch/categories/index.html
 http://hoferlabs.ch/
 http://hoferlabs.ch/tags/Bicep/
 http://hoferlabs.ch/tags/Sentinel/
