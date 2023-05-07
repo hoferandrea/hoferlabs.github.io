@@ -46,9 +46,63 @@
         <category>Automation</category>
       </categories>
       <tags>
-        <tag>Sentinel</tag>
         <tag>Bicep</tag>
         <tag>Automation</tag>
+        <tag>Sentinel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Regex | Sanitize Strings (KQL, Powershell)</title>
+    <url>/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/</url>
+    <content><![CDATA[<p>I recently came across some special chars in Sentinel Entitites which broke my KQL Query. I decided to create a whitelist solution to sanitize strings.</p>
+<span id="more"></span>
+
+<p>My goal was to replace all chars except for </p>
+<ul>
+<li>a-z&#x2F;A-Z</li>
+<li>0-9 </li>
+<li>spaces and _</li>
+</ul>
+<p>With a little help from ChatGPT i created the following expression:</p>
+<p><code>[^a-zA-Z0-9 _]</code></p>
+<p>Let’s break it down:</p>
+<ul>
+<li><code>[^a-zA-Z0-9 _]</code> - This is a character class, denoted by square brackets <code>[]</code>, which defines a set of characters that are to be matched.<ul>
+<li><code>^</code> - The caret symbol at the beginning of the character class denotes negation, meaning it matches any character that is not in the set.</li>
+<li><code>a-zA-Z0-9</code> - This range represents all lowercase letters (<code>a-z</code>), uppercase letters (<code>A-Z</code>), and digits (<code>0-9</code>).</li>
+<li>&#96;&#96; - This space character represents a literal space.</li>
+<li><code>_</code> - This underscore character represents a literal underscore.</li>
+</ul>
+</li>
+</ul>
+<p>In summary, this regular expression matches any character that is not a letter (lowercase or uppercase), a digit, a space, or an underscore. It can be used to identify any special characters or symbols present in a given string.</p>
+<p>If you want to whitelist more characters, add them before the ]. Let’s add ‘.’ for FQDNs:<br><code>[^a-zA-Z0-9 _.]</code></p>
+<p>I let ChatGPT create the following test string:</p>
+<blockquote>
+<p>!”#$%&amp;’()*+,-.&#x2F;0123456789:;&lt;&#x3D;&gt;?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[]^_&#96;abcdefghijklmnopqrstuvwxyz{|}~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸”</p>
+</blockquote>
+<h1 id="Replace-special-chars-in-KQL"><a href="#Replace-special-chars-in-KQL" class="headerlink" title="Replace special chars in KQL"></a>Replace special chars in KQL</h1><pre class="line-numbers language-kusto" data-language="kusto"><code class="language-kusto"><span class="token keyword">let</span> strRegex <span class="token operator">=</span> <span class="token string">@'[^a-zA-Z0-9 _]'</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> strTest <span class="token operator">=</span> <span class="token string">'!"#$%&amp;\'()*+,-./0123456789:;&lt;=>?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸"'</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> strSanitized <span class="token operator">=</span> <span class="token function">replace_regex</span><span class="token punctuation">(</span>strTest<span class="token punctuation">,</span> strRegex<span class="token punctuation">,</span> <span class="token string">@''</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">print</span> strSanitized<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Output:</p>
+<img src="/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/output_kql.png" class="" title="Script output">
+
+<h1 id="Replace-special-chars-in-Powershell"><a href="#Replace-special-chars-in-Powershell" class="headerlink" title="Replace special chars in Powershell"></a>Replace special chars in Powershell</h1><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token variable">$strRegex</span> = <span class="token string">'[^a-zA-Z0-9 _]'</span>
+<span class="token variable">$strTest</span> = <span class="token string">'!"#$%&amp;''()*+,-./0123456789:;&lt;=>?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸"'</span>
+<span class="token variable">$strTest</span> <span class="token operator">-replace</span> <span class="token variable">$strRegex</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>Output:</p>
+<img src="/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/output_powershell.png" class="" title="Script output">
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>KQL</tag>
+        <tag>Powershell</tag>
+        <tag>Regex</tag>
       </tags>
   </entry>
   <entry>
@@ -71,7 +125,7 @@
 
 <h1 id="Scenario-for-this-blog-post"><a href="#Scenario-for-this-blog-post" class="headerlink" title="Scenario for this blog post"></a>Scenario for this blog post</h1><p>I created a small project to outline different options in Bicep: </p>
 <ul>
-<li>describe user “<a href="mailto:&#106;&#111;&#x68;&#x6e;&#46;&#99;&#x6f;&#110;&#116;&#x6f;&#x73;&#x6f;&#64;&#x68;&#111;&#102;&#x65;&#x72;&#x6c;&#x61;&#x62;&#x73;&#x2e;&#99;&#x68;">&#106;&#111;&#x68;&#x6e;&#46;&#99;&#x6f;&#110;&#116;&#x6f;&#x73;&#x6f;&#64;&#x68;&#111;&#102;&#x65;&#x72;&#x6c;&#x61;&#x62;&#x73;&#x2e;&#99;&#x68;</a>“ (deployment script)</li>
+<li>describe user “<a href="mailto:&#x6a;&#x6f;&#x68;&#x6e;&#x2e;&#x63;&#x6f;&#x6e;&#x74;&#111;&#x73;&#x6f;&#64;&#104;&#111;&#x66;&#101;&#x72;&#x6c;&#97;&#x62;&#115;&#46;&#x63;&#104;">&#x6a;&#x6f;&#x68;&#x6e;&#x2e;&#x63;&#x6f;&#x6e;&#x74;&#111;&#x73;&#x6f;&#64;&#104;&#111;&#x66;&#101;&#x72;&#x6c;&#97;&#x62;&#115;&#46;&#x63;&#104;</a>“ (deployment script)</li>
 <li>describe group “Sales” and describe Johns Membership (deployment script)</li>
 <li>describe storage account and a file share (Bicep)</li>
 <li>describe group Azure roles Storage File Data SMB Share Contributor (Bicep)</li>
@@ -130,7 +184,7 @@
 <p>Output of the deployment script:</p>
 <img src="/2023/05/07/Bicep-Deployment-Scripts/img/img_script_output.png" class="" title="Script output">
 
-
+<p>A dedicated blog post about assigning permissions to user-assgined managed identities is available <a href="https://hoferlabs.ch/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions">here</a>.</p>
 <h2 id="Bicep-Template"><a href="#Bicep-Template" class="headerlink" title="Bicep Template"></a>Bicep Template</h2><p>This is the main template. <a href="https://github.com/hoferandrea/blog/tree/main/DeploymentScriptAndUiWizard">You can find the newest versions and all submodules in my public Repo.</a></p>
 <pre class="line-numbers language-bicep" data-language="bicep"><div class="caption"><span>mainTemplate.bicep</span><a href="https://github.com/hoferandrea/blog/tree/main/DeploymentScriptAndUiWizard">mainTemplate.bicep</a></div><code class="language-bicep"><span class="token keyword">param</span> uamiName <span class="token datatype class-name">string</span> <span class="token operator">=</span> <span class="token string">'mi-deploymentScript-10'</span>
 <span class="token keyword">param</span> userPrincipalName <span class="token datatype class-name">string</span> <span class="token operator">=</span> <span class="token string">'john.contoso@hoferlabs.ch'</span>
@@ -281,8 +335,8 @@
 ]]></content>
       <tags>
         <tag>Bicep</tag>
-        <tag>Automation</tag>
         <tag>Azure</tag>
+        <tag>Automation</tag>
       </tags>
   </entry>
   <entry>
@@ -343,62 +397,8 @@
       </tags>
   </entry>
   <entry>
-    <title>Regex | Sanitize Strings (KQL, Powershell)</title>
-    <url>/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/</url>
-    <content><![CDATA[<p>I recently came across some special chars in Sentinel Entitites which broke my KQL Query. I decided to create a whitelist solution to sanitize strings.</p>
-<span id="more"></span>
-
-<p>My goal was to replace all chars except for </p>
-<ul>
-<li>a-z&#x2F;A-Z</li>
-<li>0-9 </li>
-<li>spaces and _</li>
-</ul>
-<p>With a little help from ChatGPT i created the following expression:</p>
-<p><code>[^a-zA-Z0-9 _]</code></p>
-<p>Let’s break it down:</p>
-<ul>
-<li><code>[^a-zA-Z0-9 _]</code> - This is a character class, denoted by square brackets <code>[]</code>, which defines a set of characters that are to be matched.<ul>
-<li><code>^</code> - The caret symbol at the beginning of the character class denotes negation, meaning it matches any character that is not in the set.</li>
-<li><code>a-zA-Z0-9</code> - This range represents all lowercase letters (<code>a-z</code>), uppercase letters (<code>A-Z</code>), and digits (<code>0-9</code>).</li>
-<li>&#96;&#96; - This space character represents a literal space.</li>
-<li><code>_</code> - This underscore character represents a literal underscore.</li>
-</ul>
-</li>
-</ul>
-<p>In summary, this regular expression matches any character that is not a letter (lowercase or uppercase), a digit, a space, or an underscore. It can be used to identify any special characters or symbols present in a given string.</p>
-<p>If you want to whitelist more characters, add them before the ]. Let’s add ‘.’ for FQDNs:<br><code>[^a-zA-Z0-9 _.]</code></p>
-<p>I let ChatGPT create the following test string:</p>
-<blockquote>
-<p>!”#$%&amp;’()*+,-.&#x2F;0123456789:;&lt;&#x3D;&gt;?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[]^_&#96;abcdefghijklmnopqrstuvwxyz{|}~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸”</p>
-</blockquote>
-<h1 id="Replace-special-chars-in-KQL"><a href="#Replace-special-chars-in-KQL" class="headerlink" title="Replace special chars in KQL"></a>Replace special chars in KQL</h1><pre class="line-numbers language-kusto" data-language="kusto"><code class="language-kusto"><span class="token keyword">let</span> strRegex <span class="token operator">=</span> <span class="token string">@'[^a-zA-Z0-9 _]'</span><span class="token punctuation">;</span>
-<span class="token keyword">let</span> strTest <span class="token operator">=</span> <span class="token string">'!"#$%&amp;\'()*+,-./0123456789:;&lt;=>?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸"'</span><span class="token punctuation">;</span>
-<span class="token keyword">let</span> strSanitized <span class="token operator">=</span> <span class="token function">replace_regex</span><span class="token punctuation">(</span>strTest<span class="token punctuation">,</span> strRegex<span class="token punctuation">,</span> <span class="token string">@''</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">print</span> strSanitized<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<p>Output:</p>
-<img src="/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/output_kql.png" class="" title="Script output">
-
-<h1 id="Replace-special-chars-in-Powershell"><a href="#Replace-special-chars-in-Powershell" class="headerlink" title="Replace special chars in Powershell"></a>Replace special chars in Powershell</h1><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token variable">$strRegex</span> = <span class="token string">'[^a-zA-Z0-9 _]'</span>
-<span class="token variable">$strTest</span> = <span class="token string">'!"#$%&amp;''()*+,-./0123456789:;&lt;=>?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸"'</span>
-<span class="token variable">$strTest</span> <span class="token operator">-replace</span> <span class="token variable">$strRegex</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>Output:</p>
-<img src="/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/output_powershell.png" class="" title="Script output">
-
-
-
-
-
-]]></content>
-      <tags>
-        <tag>Powershell</tag>
-        <tag>KQL</tag>
-        <tag>Regex</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>All Categories</title>
-    <url>/categories/index.html</url>
+    <title>All Tags</title>
+    <url>/tags/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -434,6 +434,11 @@
 ]]></content>
   </entry>
   <entry>
+    <title>All Categories</title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>Useful Links</title>
     <url>/Useful-Links/index.html</url>
     <content><![CDATA[<h1 id="KQL"><a href="#KQL" class="headerlink" title="KQL"></a>KQL</h1><ul>
@@ -452,10 +457,5 @@
 <li><a href="https://jwt.ms/">Decode an encoded JWT Token and see the contents</a></li>
 </ul>
 ]]></content>
-  </entry>
-  <entry>
-    <title>All Tags</title>
-    <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
   </entry>
 </search>
