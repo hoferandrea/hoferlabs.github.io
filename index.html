@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"hoferlabs.ch","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hoferlabs.ch","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
     <meta property="og:type" content="website">
 <meta property="og:title" content="HoferLabs">
@@ -156,6 +156,95 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://hoferlabs.ch/2023/05/07/Bicep-Deployment-Scripts/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Andrea Hofer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HoferLabs">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | HoferLabs">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/05/07/Bicep-Deployment-Scripts/" class="post-title-link" itemprop="url">Bicep | Deployment Scripts</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2023-05-07 09:04:37 / Modified: 11:34:19" itemprop="dateCreated datePublished" datetime="2023-05-07T09:04:37+02:00">2023-05-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Intro-and-possible-use-cases"><a href="#Intro-and-possible-use-cases" class="headerlink" title="Intro and possible use cases"></a>Intro and possible use cases</h1><p>For a project I needed to create AAD groups while only having a single Bicep&#x2F;ARM deployment (inlcuding UI Wizard)… I decided to go with deployment scripts (Powershell) and a user-assigned Managed Identity.</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/training/modules/extend-resource-manager-template-deployment-scripts/1-introduction">Deployment scripts in ARM&#x2F;Bicep enable custom automation for your environment management. You use deployment scripts to execute your own scripts within your ARM template deployments.</a></p>
+<p>Possible use cases (not complete): </p>
+<ul>
+<li>create resources which can’t be described using Bicep, e.g.:<ul>
+<li>AAD users &#x2F; groups</li>
+<li>External identitites settings like catalogs and access packages</li>
+<li>Identity governance settings like connected organizations</li>
+</ul>
+</li>
+<li>consume external APIs</li>
+</ul>
+<p>Outputs from deploment scripts can be “returned” (e.g created AAD group identifiers).  </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/07/Bicep-Deployment-Scripts/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://hoferlabs.ch/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -187,6 +276,13 @@
 
       <time title="Created: 2023-05-06 21:14:30" itemprop="dateCreated datePublished" datetime="2023-05-06T21:14:30+02:00">2023-05-06</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-05-07 07:02:23" itemprop="dateModified" datetime="2023-05-07T07:02:23+02:00">2023-05-07</time>
+    </span>
 
   
 </div>
@@ -198,7 +294,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>The <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/graph/migrate-azure-ad-graph-faq">Azure Active Directory module is not supported in newer Powershell versions (7+)</a>. I used a script by <a target="_blank" rel="noopener" href="https://gist.github.com/maayanlux/e6ca2d92b3d5a13a3905dff3244495db">maayanlux</a> from the <a target="_blank" rel="noopener" href="https://azurecloudai.blog/2023/03/22/azure-ad-powershell-to-microsoft-graph-powershell/">Azure Cloud AI Blog</a> to assign Graph Application Permissions in the past, but couldn’t get it working with newer Powershell Versions. </p>
+          <p>The <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/graph/migrate-azure-ad-graph-faq">Azure Active Directory module is not supported in newer Powershell versions (7+) and will be retired at any time after June 30, 2023</a>. I used a script by <a target="_blank" rel="noopener" href="https://gist.github.com/maayanlux/e6ca2d92b3d5a13a3905dff3244495db">maayanlux</a> from the <a target="_blank" rel="noopener" href="https://azurecloudai.blog/2023/03/22/azure-ad-powershell-to-microsoft-graph-powershell/">Azure Cloud AI Blog</a> to assign Graph Application Permissions in the past, but couldn’t get it working with newer Powershell Versions. </p>
 <p>The new way is to use the Graph Module (&#x2F;API). I found a script from <a target="_blank" rel="noopener" href="https://jannikreinhard.com/2023/04/09/how-to-start-with-azure-automation-runbook-to-automate-tasks-in-intune/">Jannik Reinhard</a> but it doesn’t support multiple permissions. Let’s combine them… I also added a verify step which shows current assigned permissions and when they were assigned…</p>
           <!--noindex-->
             <div class="post-button">
@@ -443,6 +539,7 @@
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
 
   
+
 
 
 

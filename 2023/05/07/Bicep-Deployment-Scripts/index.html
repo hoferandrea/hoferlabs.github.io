@@ -1,61 +1,222 @@
-<?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title>Sentinel Playground - Bicep Edition</title>
-    <url>/2023/04/25/Sentinel-Playground-Bicep-Edition/</url>
-    <content><![CDATA[<p>Sentinel Playground is a project that aims to speed up deployment and configuration tasks of a Sentinel Lab&#x2F;Demo environment, including sample content and Bicep Templates. This project seeks to use Bicep only.</p>
-<span id="more"></span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
 
-<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>The following components can be deployed&#x2F;configured:</p>
-<ul>
-<li>resource group</li>
-<li>Log Analytics workspace + Sentinel solution</li>
-<li>Log Analytics workspace config (retention, daily cap)</li>
-<li>Sentinel config (UEBA, Anomalies)</li>
-<li>Sentinel data connectors<ul>
-<li>Azure Activity</li>
-<li>Azure Active Directory</li>
-<li>Defender 365 incidents</li>
-</ul>
-</li>
-<li>demo playbook (with a user-assigned Managed Identity + required permissions)</li>
-<li>Sentinel permissions to trigger playbooks</li>
-<li>Sentinel Content (including Bicep templates)<ul>
-<li>analytics rule</li>
-<li>automation rule</li>
-<li>log query (in a query pack)</li>
-<li>watchlist (with CSV-support)</li>
-</ul>
-</li>
-<li>all analytics rules for Azure Activity and Azure Active Directory are enabled</li>
-</ul>
-<p><strong>You can find the ReadMe including Deployment Instructions in my public repository <a href="https://github.com/hoferandrea/Sentinel-Playground-Bicep-Edition">here</a>.</strong></p>
-<p>I will explain some of the key elements in seperate Blog Posts:</p>
-<ul>
-<li>Deployment Scripts + user-assigned Managed Identities</li>
-<li>Modules and reusablitly</li>
-<li>API Connections + Logic Apps</li>
-<li>Watchlists + CSV Files</li>
-<li>UI Wizard</li>
-<li>Outputs and Conditions</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Bicep</category>
-        <category>Sentinel</category>
-        <category>Automation</category>
-      </categories>
-      <tags>
-        <tag>Bicep</tag>
-        <tag>Sentinel</tag>
-        <tag>Automation</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Bicep | Deployment Scripts</title>
-    <url>/2023/05/07/Bicep-Deployment-Scripts/</url>
-    <content><![CDATA[<h1 id="Intro-and-possible-use-cases"><a href="#Intro-and-possible-use-cases" class="headerlink" title="Intro and possible use cases"></a>Intro and possible use cases</h1><p>For a project I needed to create AAD groups while only having a single Bicep&#x2F;ARM deployment (inlcuding UI Wizard)… I decided to go with deployment scripts (Powershell) and a user-assigned Managed Identity.</p>
-<p><a href="https://learn.microsoft.com/en-us/training/modules/extend-resource-manager-template-deployment-scripts/1-introduction">Deployment scripts in ARM&#x2F;Bicep enable custom automation for your environment management. You use deployment scripts to execute your own scripts within your ARM template deployments.</a></p>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comme:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hoferlabs.ch","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Intro and possible use casesFor a project I needed to create AAD groups while only having a single Bicep&#x2F;ARM deployment (inlcuding UI Wizard)… I decided to go with deployment scripts (Powershell)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bicep | Deployment Scripts">
+<meta property="og:url" content="http://hoferlabs.ch/2023/05/07/Bicep-Deployment-Scripts/index.html">
+<meta property="og:site_name" content="HoferLabs">
+<meta property="og:description" content="Intro and possible use casesFor a project I needed to create AAD groups while only having a single Bicep&#x2F;ARM deployment (inlcuding UI Wizard)… I decided to go with deployment scripts (Powershell)">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://hoferlabs.ch/2023/05/07/Bicep-Deployment-Scripts/img/img_script_output.png">
+<meta property="og:image" content="http://hoferlabs.ch/2023/05/07/Bicep-Deployment-Scripts/img/img_custom_deployment.png">
+<meta property="og:image" content="http://hoferlabs.ch/2023/05/07/Bicep-Deployment-Scripts/img/img_custom_deployment_succeed.png">
+<meta property="og:image" content="http://hoferlabs.ch/2023/05/07/Bicep-Deployment-Scripts/img/img_custom_deployment_userexists.png">
+<meta property="og:image" content="http://hoferlabs.ch/2023/05/07/Bicep-Deployment-Scripts/img/img_trouble_resourceGroupContents.png">
+<meta property="og:image" content="http://hoferlabs.ch/2023/05/07/Bicep-Deployment-Scripts/img/img_trouble_container.png">
+<meta property="og:image" content="http://hoferlabs.ch/2023/05/07/Bicep-Deployment-Scripts/img/img_trouble_container_powershell.png">
+<meta property="article:published_time" content="2023-05-07T07:04:37.000Z">
+<meta property="article:modified_time" content="2023-05-07T09:34:19.870Z">
+<meta property="article:author" content="Andrea Hofer">
+<meta property="article:tag" content="Bicep">
+<meta property="article:tag" content="Automation">
+<meta property="article:tag" content="Azure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hoferlabs.ch/2023/05/07/Bicep-Deployment-Scripts/img/img_script_output.png">
+
+
+<link rel="canonical" href="http://hoferlabs.ch/2023/05/07/Bicep-Deployment-Scripts/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://hoferlabs.ch/2023/05/07/Bicep-Deployment-Scripts/","path":"2023/05/07/Bicep-Deployment-Scripts/","title":"Bicep | Deployment Scripts"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Bicep | Deployment Scripts | HoferLabs</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K468P03F6P"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-K468P03F6P","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="HoferLabs" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">HoferLabs</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Automation & Security</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about-me"><a href="/About" rel="section"><i class="fa fa-heartbeat fa-fw"></i>About Me</a></li><li class="menu-item menu-item-blog"><a href="/" rel="section"><i class="fa fa-blog fa-fw"></i>Blog</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-useful-links"><a href="/Useful-Links/" rel="section"><i class="fa fa-sitemap fa-fw"></i>Useful Links</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Intro-and-possible-use-cases"><span class="nav-number">1.</span> <span class="nav-text">Intro and possible use cases</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Scenario-for-this-blog-post"><span class="nav-number">2.</span> <span class="nav-text">Scenario for this blog post</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution"><span class="nav-number">3.</span> <span class="nav-text">Solution</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Setup-Script"><span class="nav-number">3.1.</span> <span class="nav-text">Setup Script</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bicep-Template"><span class="nav-number">3.2.</span> <span class="nav-text">Bicep Template</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deployment-and-clean-up"><span class="nav-number">3.3.</span> <span class="nav-text">Deployment and clean up</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Details-x2F-Remarks"><span class="nav-number">4.</span> <span class="nav-text">Details &#x2F; Remarks</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Parameters"><span class="nav-number">4.1.</span> <span class="nav-text">Parameters</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redeployments"><span class="nav-number">4.2.</span> <span class="nav-text">Redeployments</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Troubleshoot-Deployment-Scripts"><span class="nav-number">4.3.</span> <span class="nav-text">Troubleshoot Deployment Scripts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UI-Wizard"><span class="nav-number">4.4.</span> <span class="nav-text">UI Wizard</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Andrea Hofer</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/andrea-hofer-ch/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;andrea-hofer-ch&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/hoferandrea" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hoferandrea" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://hoferlabs.ch/atom.xml" title="RSS → https:&#x2F;&#x2F;hoferlabs.ch&#x2F;atom.xml" rel="noopener me"><i class="fab fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="Back to top">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://hoferlabs.ch/2023/05/07/Bicep-Deployment-Scripts/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Andrea Hofer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HoferLabs">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Bicep | Deployment Scripts | HoferLabs">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Bicep | Deployment Scripts
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2023-05-07 09:04:37 / Modified: 11:34:19" itemprop="dateCreated datePublished" datetime="2023-05-07T09:04:37+02:00">2023-05-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Intro-and-possible-use-cases"><a href="#Intro-and-possible-use-cases" class="headerlink" title="Intro and possible use cases"></a>Intro and possible use cases</h1><p>For a project I needed to create AAD groups while only having a single Bicep&#x2F;ARM deployment (inlcuding UI Wizard)… I decided to go with deployment scripts (Powershell) and a user-assigned Managed Identity.</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/training/modules/extend-resource-manager-template-deployment-scripts/1-introduction">Deployment scripts in ARM&#x2F;Bicep enable custom automation for your environment management. You use deployment scripts to execute your own scripts within your ARM template deployments.</a></p>
 <p>Possible use cases (not complete): </p>
 <ul>
 <li>create resources which can’t be described using Bicep, e.g.:<ul>
@@ -76,7 +237,7 @@
 <li>describe storage account and a file share (Bicep)</li>
 <li>describe group Azure roles Storage File Data SMB Share Contributor (Bicep)</li>
 </ul>
-<p>In this post, we focus on the deployment scripts and the required setup. <a href="https://github.com/hoferandrea/blog/tree/main/DeploymentScriptAndUiWizard">You can find the newest versions in my public Repo.</a></p>
+<p>In this post, we focus on the deployment scripts and the required setup. <a target="_blank" rel="noopener" href="https://github.com/hoferandrea/blog/tree/main/DeploymentScriptAndUiWizard">You can find the newest versions in my public Repo.</a></p>
 <h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><h2 id="Setup-Script"><a href="#Setup-Script" class="headerlink" title="Setup Script"></a>Setup Script</h2><p>Deployment scripts don’t use the context (&#x2F;permissions) of the user which deploys the Bicep template, instead they can use a <strong>user-assigned Managed Identity</strong> which needs the required permissions. And because Deployments Scripts will automatically create a Storage Account and Container, we also need a temporary deployment resource group.</p>
 <pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token string">"#################################################"</span>
 <span class="token string">"# hoferlabs.ch                                  #"</span>
@@ -131,8 +292,8 @@
 <img src="/2023/05/07/Bicep-Deployment-Scripts/img/img_script_output.png" class="" title="Script output">
 
 
-<h2 id="Bicep-Template"><a href="#Bicep-Template" class="headerlink" title="Bicep Template"></a>Bicep Template</h2><p>This is the main template. <a href="https://github.com/hoferandrea/blog/tree/main/DeploymentScriptAndUiWizard">You can find the newest versions and all submodules in my public Repo.</a></p>
-<pre class="line-numbers language-bicep" data-language="bicep"><div class="caption"><span>mainTemplate.bicep</span><a href="https://github.com/hoferandrea/blog/tree/main/DeploymentScriptAndUiWizard">mainTemplate.bicep</a></div><code class="language-bicep">
+<h2 id="Bicep-Template"><a href="#Bicep-Template" class="headerlink" title="Bicep Template"></a>Bicep Template</h2><p>This is the main template. <a target="_blank" rel="noopener" href="https://github.com/hoferandrea/blog/tree/main/DeploymentScriptAndUiWizard">You can find the newest versions and all submodules in my public Repo.</a></p>
+<pre class="line-numbers language-bicep" data-language="bicep"><div class="caption"><span>mainTemplate.bicep</span><a target="_blank" rel="noopener" href="https://github.com/hoferandrea/blog/tree/main/DeploymentScriptAndUiWizard">mainTemplate.bicep</a></div><code class="language-bicep">
 <span class="token keyword">param</span> uamiName <span class="token datatype class-name">string</span> <span class="token operator">=</span> <span class="token string">'mi-deploymentScript-10'</span>
 <span class="token keyword">param</span> userPrincipalName <span class="token datatype class-name">string</span> <span class="token operator">=</span> <span class="token string">'john.contoso@hoferlabs.ch'</span>
 <span class="token keyword">param</span> userDisplayName <span class="token datatype class-name">string</span> <span class="token operator">=</span> <span class="token string">'John Contoso'</span>
@@ -278,184 +439,84 @@
 
 <p>As you can see, the Container runs as our defined user-assigned managed identity. We can run and test our deployment scripts directly in the container instance.</p>
 <p>You can set the retention of the deployment resources in Bicep (retention of storage account&#x2F;container for the deployment).</p>
-<h2 id="UI-Wizard"><a href="#UI-Wizard" class="headerlink" title="UI Wizard"></a>UI Wizard</h2>]]></content>
-      <tags>
-        <tag>Bicep</tag>
-        <tag>Automation</tag>
-        <tag>Azure</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Powershell/Graph | Assign Graph Application Permissions</title>
-    <url>/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/</url>
-    <content><![CDATA[<p>The <a href="https://learn.microsoft.com/en-us/graph/migrate-azure-ad-graph-faq">Azure Active Directory module is not supported in newer Powershell versions (7+) and will be retired at any time after June 30, 2023</a>. I used a script by <a href="https://gist.github.com/maayanlux/e6ca2d92b3d5a13a3905dff3244495db">maayanlux</a> from the <a href="https://azurecloudai.blog/2023/03/22/azure-ad-powershell-to-microsoft-graph-powershell/">Azure Cloud AI Blog</a> to assign Graph Application Permissions in the past, but couldn’t get it working with newer Powershell Versions. </p>
-<p>The new way is to use the Graph Module (&#x2F;API). I found a script from <a href="https://jannikreinhard.com/2023/04/09/how-to-start-with-azure-automation-runbook-to-automate-tasks-in-intune/">Jannik Reinhard</a> but it doesn’t support multiple permissions. Let’s combine them… I also added a verify step which shows current assigned permissions and when they were assigned…</p>
-<span id="more"></span>
+<h2 id="UI-Wizard"><a href="#UI-Wizard" class="headerlink" title="UI Wizard"></a>UI Wizard</h2>
+    </div>
 
-<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token string">"####################################################################################################################################"</span>
-<span class="token string">"# hoferlabs.ch                                                                                                                     #"</span>
-<span class="token string">"# assign Graph application permissions using Graph Powershell Module                                                               #"</span>
-<span class="token string">"# Version: 0.1                                                                                                                     #"</span>
-<span class="token string">"# Inspired by https://jannikreinhard.com/2023/04/09/how-to-start-with-azure-automation-runbook-to-automate-tasks-in-intune/ and    #"</span>
-<span class="token string">"# https://azurecloudai.blog/2023/03/22/azure-ad-powershell-to-microsoft-graph-powershell/                                          #"</span>
-<span class="token string">"####################################################################################################################################"</span>
+    
+    
+    
 
-<span class="token comment"># edit here</span>
-<span class="token comment"># for enteprise applications / managed identitites: use the object id of the enterprise application</span>
-<span class="token variable">$strAppId</span> = <span class="token string">"c2280552-0c9a-43e7-8f44-e862d30c8058"</span>
-<span class="token variable">$arrPermissions</span> = <span class="token string">"User.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"Group.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"Directory.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"GroupMember.ReadWrite.All"</span><span class="token punctuation">,</span> <span class="token string">"RoleManagement.ReadWrite.Directory"</span> 
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Bicep/" rel="tag"># Bicep</a>
+              <a href="/tags/Automation/" rel="tag"># Automation</a>
+              <a href="/tags/Azure/" rel="tag"># Azure</a>
+          </div>
 
-<span class="token comment"># do not edit</span>
-<span class="token variable">$strGraphAppId</span> = <span class="token string">"00000003-0000-0000-c000-000000000000"</span>
+        
 
-<span class="token function">Connect-MgGraph</span> <span class="token operator">-</span>Scopes Application<span class="token punctuation">.</span>Read<span class="token punctuation">.</span>All<span class="token punctuation">,</span> AppRoleAssignment<span class="token punctuation">.</span>ReadWrite<span class="token punctuation">.</span>All<span class="token punctuation">,</span> RoleManagement<span class="token punctuation">.</span>ReadWrite<span class="token punctuation">.</span>Directory
-
-<span class="token string">"get graph app..."</span>
-<span class="token variable">$objGraphApp</span> = <span class="token function">Get-MgServicePrincipal</span> <span class="token operator">-</span><span class="token keyword">Filter</span> <span class="token string">"AppId eq '<span class="token variable">$strGraphAppId</span>'"</span>
-
-<span class="token string">"assign permissions..."</span>
-<span class="token keyword">ForEach</span> <span class="token punctuation">(</span><span class="token variable">$strPermission</span> in <span class="token variable">$arrPermissions</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token string">" assign permission <span class="token variable">$strPermission</span>..."</span>
-    <span class="token variable">$objRole</span> = <span class="token variable">$objGraphApp</span><span class="token punctuation">.</span>AppRoles <span class="token punctuation">|</span> <span class="token function">Where-Object</span> <span class="token punctuation">&#123;</span> <span class="token variable">$_</span><span class="token punctuation">.</span>Value <span class="token operator">-eq</span> <span class="token variable">$strPermission</span> <span class="token punctuation">&#125;</span>
-    <span class="token variable">$objResult</span> = <span class="token function">New-MgServicePrincipalAppRoleAssignment</span> <span class="token operator">-</span>ServicePrincipalId <span class="token variable">$strAppId</span> <span class="token operator">-</span>PrincipalId <span class="token variable">$strAppId</span> <span class="token operator">-</span>ResourceId <span class="token variable">$objGraphApp</span><span class="token punctuation">.</span>Id <span class="token operator">-</span>AppRoleId <span class="token variable">$objRole</span><span class="token punctuation">.</span>Id
-<span class="token punctuation">&#125;</span>
-
-<span class="token string">"verify permissions..."</span>
-<span class="token variable">$arrRoleAssignment</span> = <span class="token function">Get-MgServicePrincipalAppRoleAssignment</span> <span class="token operator">-</span>ServicePrincipalId <span class="token variable">$strAppId</span>
-<span class="token keyword">ForEach</span> <span class="token punctuation">(</span><span class="token variable">$objRoleAssignment</span> in <span class="token variable">$arrRoleAssignment</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token variable">$objRole</span> = <span class="token variable">$objGraphApp</span><span class="token punctuation">.</span>AppRoles <span class="token punctuation">|</span> <span class="token function">Where-Object</span> <span class="token punctuation">&#123;</span> <span class="token variable">$_</span><span class="token punctuation">.</span>Id <span class="token operator">-eq</span> <span class="token variable">$objRoleAssignment</span><span class="token punctuation">.</span>AppRoleId<span class="token punctuation">&#125;</span>
-    <span class="token string">" assignment for app role <span class="token function">$<span class="token punctuation">(</span><span class="token variable">$objRole</span><span class="token punctuation">.</span>Value<span class="token punctuation">)</span></span> was created on <span class="token function">$<span class="token punctuation">(</span><span class="token variable">$objRoleAssignment</span><span class="token punctuation">.</span>CreatedDateTime<span class="token punctuation">)</span></span> (ID: <span class="token function">$<span class="token punctuation">(</span><span class="token variable">$objRoleAssignment</span><span class="token punctuation">.</span>AppRoleId<span class="token punctuation">)</span></span>)"</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>Script outputs for assigning permissions to a managed identity:</p>
-<img src="/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/script_output.png" class="" title="Script output">
-
-<p>Permissions:</p>
-<img src="/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/app_permissions.png" class="" title="App permissions">
-
-
-
-
-]]></content>
-      <tags>
-        <tag>Powershell</tag>
-        <tag>Graph API</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Regex | Sanitize Strings (KQL, Powershell)</title>
-    <url>/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/</url>
-    <content><![CDATA[<p>I recently came across some special chars in Sentinel Entitites which broke my KQL Query. I decided to create a whitelist solution to sanitize strings.</p>
-<span id="more"></span>
-
-<p>My goal was to replace all chars except for </p>
-<ul>
-<li>a-z&#x2F;A-Z</li>
-<li>0-9 </li>
-<li>spaces and _</li>
-</ul>
-<p>With a little help from ChatGPT i created the following expression:</p>
-<p><code>[^a-zA-Z0-9 _]</code></p>
-<p>Let’s break it down:</p>
-<ul>
-<li><code>[^a-zA-Z0-9 _]</code> - This is a character class, denoted by square brackets <code>[]</code>, which defines a set of characters that are to be matched.<ul>
-<li><code>^</code> - The caret symbol at the beginning of the character class denotes negation, meaning it matches any character that is not in the set.</li>
-<li><code>a-zA-Z0-9</code> - This range represents all lowercase letters (<code>a-z</code>), uppercase letters (<code>A-Z</code>), and digits (<code>0-9</code>).</li>
-<li>&#96;&#96; - This space character represents a literal space.</li>
-<li><code>_</code> - This underscore character represents a literal underscore.</li>
-</ul>
-</li>
-</ul>
-<p>In summary, this regular expression matches any character that is not a letter (lowercase or uppercase), a digit, a space, or an underscore. It can be used to identify any special characters or symbols present in a given string.</p>
-<p>If you want to whitelist more characters, add them before the ]. Let’s add ‘.’ for FQDNs:<br><code>[^a-zA-Z0-9 _.]</code></p>
-<p>I let ChatGPT create the following test string:</p>
-<blockquote>
-<p>!”#$%&amp;’()*+,-.&#x2F;0123456789:;&lt;&#x3D;&gt;?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[]^_&#96;abcdefghijklmnopqrstuvwxyz{|}~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸”</p>
-</blockquote>
-<h1 id="Replace-special-chars-in-KQL"><a href="#Replace-special-chars-in-KQL" class="headerlink" title="Replace special chars in KQL"></a>Replace special chars in KQL</h1><pre class="line-numbers language-kusto" data-language="kusto"><code class="language-kusto"><span class="token keyword">let</span> strRegex <span class="token operator">=</span> <span class="token string">@'[^a-zA-Z0-9 _]'</span><span class="token punctuation">;</span>
-<span class="token keyword">let</span> strTest <span class="token operator">=</span> <span class="token string">'!"#$%&amp;\'()*+,-./0123456789:;&lt;=>?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸"'</span><span class="token punctuation">;</span>
-<span class="token keyword">let</span> strSanitized <span class="token operator">=</span> <span class="token function">replace_regex</span><span class="token punctuation">(</span>strTest<span class="token punctuation">,</span> strRegex<span class="token punctuation">,</span> <span class="token string">@''</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">print</span> strSanitized<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<p>Output:</p>
-<img src="/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/output_kql.png" class="" title="Script output">
-
-<h1 id="Replace-special-chars-in-Powershell"><a href="#Replace-special-chars-in-Powershell" class="headerlink" title="Replace special chars in Powershell"></a>Replace special chars in Powershell</h1><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token variable">$strRegex</span> = <span class="token string">'[^a-zA-Z0-9 _]'</span>
-<span class="token variable">$strTest</span> = <span class="token string">'!"#$%&amp;''()*+,-./0123456789:;&lt;=>?@AB CDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸"'</span>
-<span class="token variable">$strTest</span> <span class="token operator">-replace</span> <span class="token variable">$strRegex</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>Output:</p>
-<img src="/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/output_powershell.png" class="" title="Script output">
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/05/06/Powershell-Graph-Assign-Graph-Application-Permissions/" rel="prev" title="Powershell/Graph | Assign Graph Application Permissions">
+                  <i class="fa fa-chevron-left"></i> Powershell/Graph | Assign Graph Application Permissions
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
 
 
 
 
 
-]]></content>
-      <tags>
-        <tag>Powershell</tag>
-        <tag>KQL</tag>
-        <tag>Regex</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>About</title>
-    <url>/About/index.html</url>
-    <content><![CDATA[<h1 id="About-me"><a href="#About-me" class="headerlink" title="About me"></a>About me</h1><ul>
-<li>👨 <a href="https://www.linkedin.com/in/andrea-hofer-ch/">Andrea (Alexander) Hofer</a></li>
-<li>🤖 knows Automation stuff (Bicep, Powershell, MS Graph, ….)</li>
-<li>🔐 knows Microsoft Security stuff</li>
-<li>🗠 knows Crypto stuff (especially ETH&#x2F;Staking)</li>
-<li>👤 <a href="https://www.linkedin.com/in/andrea-hofer-ch/">LinkedIn</a></li>
-</ul>
-<h2 id="Jobs-and-Roles"><a href="#Jobs-and-Roles" class="headerlink" title="Jobs and Roles"></a>Jobs and Roles</h2><ul>
-<li>current: 🔐 Security Analyst&#x2F;Engineer focused on Sentinel Content&#x2F;Infrastructure Automation</li>
-<li>current: 🚀 <a href="https://watchtheburn.com/">ETH Staker&#x2F;Enthusiast</a></li>
-<li>ex 🔐 Security Engineer &#x2F; Threat Analyst</li>
-<li>ex 👨‍💼 Enterprise Architect</li>
-<li>ex 👨‍💼 Infrastructure Architect</li>
-<li>ex 🤖 System&#x2F;Automation Engineer</li>
-</ul>
-<h2 id="Certs-and-other-boring-stuff"><a href="#Certs-and-other-boring-stuff" class="headerlink" title="Certs and other boring stuff"></a>Certs and other boring stuff</h2><ul>
-<li>25+ Microsoft Certs - some Beta Exams</li>
-<li>Cisco Certified Network Professional (CCNP)</li>
-<li>VMware Certified Professional</li>
-<li>Mirantis OpenStack Professional</li>
-<li>Togaf Level 1+2</li>
-<li>MAS Information Systems Management (FHNW, FHS St. Gallen)</li>
-<li>CAS Enterprise Architecture Management (BFH)</li>
-<li>some Linux Stuff (LPIC)</li>
-<li>…</li>
-</ul>
-<h2 id="Page"><a href="#Page" class="headerlink" title="Page"></a>Page</h2><p>The page was generated using Hexo &amp; NexT.</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>All Categories</title>
-    <url>/categories/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>All Tags</title>
-    <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>Useful Links</title>
-    <url>/Useful-Links/index.html</url>
-    <content><![CDATA[<h1 id="KQL"><a href="#KQL" class="headerlink" title="KQL"></a>KQL</h1><ul>
-<li><a href="https://kqlcafe.github.io/website/">KQL Cafe with Alex and Gianni</a></li>
-<li><a href="https://aka.ms/MustLearnKQL">Must Learn KQL by Rod Trent</a></li>
-<li><a href="https://detective.kusto.io/">Kusto Detective Agency</a></li>
-<li><a href="https://www.kqlsearch.com/">KQL Search</a></li>
-</ul>
-<h1 id="Graph-API"><a href="#Graph-API" class="headerlink" title="Graph API"></a>Graph API</h1><ul>
-<li><a href="https://laurakokkarinen.com/the-ultimate-beginners-guide-to-microsoft-graph/">Graph Beginners Guide by Laura Kokkarinen</a></li>
-</ul>
-<h1 id="UI-Wizard"><a href="#UI-Wizard" class="headerlink" title="UI Wizard"></a>UI Wizard</h1><ul>
-<li><a href="https://aka.ms/form/sandbox">Fowm View Sandbox</a> (use CustomTemplate as Package Type for Template Specs)</li>
-</ul>
-<h1 id="Other-stuff"><a href="#Other-stuff" class="headerlink" title="Other stuff"></a>Other stuff</h1><ul>
-<li><a href="https://jwt.ms/">Decode an encoded JWT Token and see the contents</a></li>
-</ul>
-]]></content>
-  </entry>
-</search>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Andrea Hofer</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+
+  <a href="https://github.com/hoferandrea" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
