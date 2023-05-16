@@ -1,6 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Sentinel Playground - Bicep Edition</title>
+    <url>/2023/04/25/Sentinel-Playground-Bicep-Edition/</url>
+    <content><![CDATA[<p>Sentinel Playground is a project that aims to speed up deployment and configuration tasks of a Sentinel Lab&#x2F;Demo environment, including sample content and Bicep Templates. This project seeks to use Bicep only.</p>
+<span id="more"></span>
+
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>The following components can be deployed&#x2F;configured:</p>
+<ul>
+<li>resource group</li>
+<li>Log Analytics workspace + Sentinel solution</li>
+<li>Log Analytics workspace config (retention, daily cap)</li>
+<li>Sentinel config (UEBA, Anomalies)</li>
+<li>Sentinel data connectors<ul>
+<li>Azure Activity</li>
+<li>Azure Active Directory</li>
+<li>Defender 365 incidents</li>
+</ul>
+</li>
+<li>demo playbook (with a user-assigned Managed Identity + required permissions)</li>
+<li>Sentinel permissions to trigger playbooks</li>
+<li>Sentinel Content (including Bicep templates)<ul>
+<li>analytics rule</li>
+<li>automation rule</li>
+<li>log query (in a query pack)</li>
+<li>watchlist (with CSV-support)</li>
+</ul>
+</li>
+<li>all analytics rules for Azure Activity and Azure Active Directory are enabled</li>
+</ul>
+<p><strong>You can find the ReadMe including Deployment Instructions in my public repository <a href="https://github.com/hoferandrea/Sentinel-Playground-Bicep-Edition">here</a>.</strong></p>
+<p>I will explain some of the key elements in seperate Blog Posts:</p>
+<ul>
+<li>Deployment Scripts + user-assigned Managed Identities</li>
+<li>Modules and reusablitly</li>
+<li>API Connections + Logic Apps</li>
+<li>Watchlists + CSV Files</li>
+<li>UI Wizard</li>
+<li>Outputs and Conditions</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Bicep</category>
+        <category>Sentinel</category>
+        <category>Automation</category>
+      </categories>
+      <tags>
+        <tag>Bicep</tag>
+        <tag>Sentinel</tag>
+        <tag>Automation</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Regex | Sanitize Strings (KQL, Powershell)</title>
     <url>/2023/04/28/Regex-Sanitize-Strings-KQL-Powershell/</url>
     <content><![CDATA[<p>I recently came across some special chars in Sentinel Entitites which broke my KQL Query. I decided to create a whitelist solution to sanitize strings.</p>
@@ -52,57 +103,6 @@
         <tag>KQL</tag>
         <tag>Powershell</tag>
         <tag>Regex</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Sentinel Playground - Bicep Edition</title>
-    <url>/2023/04/25/Sentinel-Playground-Bicep-Edition/</url>
-    <content><![CDATA[<p>Sentinel Playground is a project that aims to speed up deployment and configuration tasks of a Sentinel Lab&#x2F;Demo environment, including sample content and Bicep Templates. This project seeks to use Bicep only.</p>
-<span id="more"></span>
-
-<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>The following components can be deployed&#x2F;configured:</p>
-<ul>
-<li>resource group</li>
-<li>Log Analytics workspace + Sentinel solution</li>
-<li>Log Analytics workspace config (retention, daily cap)</li>
-<li>Sentinel config (UEBA, Anomalies)</li>
-<li>Sentinel data connectors<ul>
-<li>Azure Activity</li>
-<li>Azure Active Directory</li>
-<li>Defender 365 incidents</li>
-</ul>
-</li>
-<li>demo playbook (with a user-assigned Managed Identity + required permissions)</li>
-<li>Sentinel permissions to trigger playbooks</li>
-<li>Sentinel Content (including Bicep templates)<ul>
-<li>analytics rule</li>
-<li>automation rule</li>
-<li>log query (in a query pack)</li>
-<li>watchlist (with CSV-support)</li>
-</ul>
-</li>
-<li>all analytics rules for Azure Activity and Azure Active Directory are enabled</li>
-</ul>
-<p><strong>You can find the ReadMe including Deployment Instructions in my public repository <a href="https://github.com/hoferandrea/Sentinel-Playground-Bicep-Edition">here</a>.</strong></p>
-<p>I will explain some of the key elements in seperate Blog Posts:</p>
-<ul>
-<li>Deployment Scripts + user-assigned Managed Identities</li>
-<li>Modules and reusablitly</li>
-<li>API Connections + Logic Apps</li>
-<li>Watchlists + CSV Files</li>
-<li>UI Wizard</li>
-<li>Outputs and Conditions</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Bicep</category>
-        <category>Sentinel</category>
-        <category>Automation</category>
-      </categories>
-      <tags>
-        <tag>Bicep</tag>
-        <tag>Sentinel</tag>
-        <tag>Automation</tag>
       </tags>
   </entry>
   <entry>
@@ -164,7 +164,7 @@
 
 <h1 id="Scenario-for-this-blog-post"><a href="#Scenario-for-this-blog-post" class="headerlink" title="Scenario for this blog post"></a>Scenario for this blog post</h1><p>I created a small project to outline different options in Bicep: </p>
 <ul>
-<li>describe user “<a href="mailto:&#x6a;&#111;&#104;&#110;&#x2e;&#99;&#111;&#x6e;&#x74;&#111;&#115;&#111;&#64;&#x68;&#111;&#102;&#101;&#x72;&#108;&#x61;&#98;&#x73;&#46;&#x63;&#104;">&#x6a;&#111;&#104;&#110;&#x2e;&#99;&#111;&#x6e;&#x74;&#111;&#115;&#111;&#64;&#x68;&#111;&#102;&#101;&#x72;&#108;&#x61;&#98;&#x73;&#46;&#x63;&#104;</a>“ (deployment script)</li>
+<li>describe user “<a href="mailto:&#106;&#111;&#104;&#x6e;&#46;&#99;&#x6f;&#x6e;&#116;&#111;&#115;&#111;&#x40;&#x68;&#x6f;&#x66;&#x65;&#x72;&#x6c;&#97;&#98;&#x73;&#x2e;&#99;&#104;">&#106;&#111;&#104;&#x6e;&#46;&#99;&#x6f;&#x6e;&#116;&#111;&#115;&#111;&#x40;&#x68;&#x6f;&#x66;&#x65;&#x72;&#x6c;&#97;&#98;&#x73;&#x2e;&#99;&#104;</a>“ (deployment script)</li>
 <li>describe group “Sales” and describe Johns Membership (deployment script)</li>
 <li>describe storage account and a file share (Bicep)</li>
 <li>describe group Azure roles Storage File Data SMB Share Contributor (Bicep)</li>
@@ -436,6 +436,32 @@
       </tags>
   </entry>
   <entry>
+    <title>Useful Links</title>
+    <url>/Useful-Links/index.html</url>
+    <content><![CDATA[<h1 id="KQL"><a href="#KQL" class="headerlink" title="KQL"></a>KQL</h1><ul>
+<li><a href="https://kqlcafe.github.io/website/">KQL Cafe with Alex and Gianni</a></li>
+<li><a href="https://aka.ms/MustLearnKQL">Must Learn KQL by Rod Trent</a></li>
+<li><a href="https://detective.kusto.io/">Kusto Detective Agency</a></li>
+<li><a href="https://www.kqlsearch.com/">KQL Search</a></li>
+</ul>
+<h1 id="Graph-API"><a href="#Graph-API" class="headerlink" title="Graph API"></a>Graph API</h1><ul>
+<li><a href="https://laurakokkarinen.com/the-ultimate-beginners-guide-to-microsoft-graph/">Graph Beginners Guide by Laura Kokkarinen</a></li>
+</ul>
+<h1 id="UI-Wizard"><a href="#UI-Wizard" class="headerlink" title="UI Wizard"></a>UI Wizard</h1><ul>
+<li><a href="https://aka.ms/form/sandbox">Fowm View Sandbox</a> (use CustomTemplate as Package Type for Template Specs)</li>
+</ul>
+<h1 id="Other-stuff"><a href="#Other-stuff" class="headerlink" title="Other stuff"></a>Other stuff</h1><ul>
+<li><a href="https://jwt.ms/">Decode an encoded JWT Token and see the contents</a></li>
+<li><a href="https://www.wpninjas.ch/">Workplace Ninjas Switzerland</a></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>All Categories</title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>About</title>
     <url>/About/index.html</url>
     <content><![CDATA[<h1 id="About-me"><a href="#About-me" class="headerlink" title="About me"></a>About me</h1><ul>
@@ -470,32 +496,6 @@
   <entry>
     <title>All Tags</title>
     <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>Useful Links</title>
-    <url>/Useful-Links/index.html</url>
-    <content><![CDATA[<h1 id="KQL"><a href="#KQL" class="headerlink" title="KQL"></a>KQL</h1><ul>
-<li><a href="https://kqlcafe.github.io/website/">KQL Cafe with Alex and Gianni</a></li>
-<li><a href="https://aka.ms/MustLearnKQL">Must Learn KQL by Rod Trent</a></li>
-<li><a href="https://detective.kusto.io/">Kusto Detective Agency</a></li>
-<li><a href="https://www.kqlsearch.com/">KQL Search</a></li>
-</ul>
-<h1 id="Graph-API"><a href="#Graph-API" class="headerlink" title="Graph API"></a>Graph API</h1><ul>
-<li><a href="https://laurakokkarinen.com/the-ultimate-beginners-guide-to-microsoft-graph/">Graph Beginners Guide by Laura Kokkarinen</a></li>
-</ul>
-<h1 id="UI-Wizard"><a href="#UI-Wizard" class="headerlink" title="UI Wizard"></a>UI Wizard</h1><ul>
-<li><a href="https://aka.ms/form/sandbox">Fowm View Sandbox</a> (use CustomTemplate as Package Type for Template Specs)</li>
-</ul>
-<h1 id="Other-stuff"><a href="#Other-stuff" class="headerlink" title="Other stuff"></a>Other stuff</h1><ul>
-<li><a href="https://jwt.ms/">Decode an encoded JWT Token and see the contents</a></li>
-<li><a href="https://www.wpninjas.ch/">Workplace Ninjas by some (very) skilled people</a></li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
-    <title>All Categories</title>
-    <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
 </search>
